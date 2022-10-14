@@ -56,6 +56,12 @@ return [
             'channels' => ['single'],
             'ignore_exceptions' => false,
         ],
+        'file' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/laravel.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+ 
 
         'single' => [
             'driver' => 'single',
