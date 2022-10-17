@@ -110,9 +110,10 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 
-        'errorlog' => [
-            'driver' => 'errorlog',
-            'level' => env('LOG_LEVEL', 'debug'),
+         
+       'errorlog' => [
+        'driver' => 'errorlog',
+        'level' => env('LOG_LEVEL', 'debug'),
         ],
 
         'null' => [
