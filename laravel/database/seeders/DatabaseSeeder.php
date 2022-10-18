@@ -20,5 +20,12 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        $admin = new User([
+            'name'      => config('admin.name'),
+            'email'     => config('admin.email'),
+            'password'  => Hash::make(config('admin.password')),
+        ]);
+        $admin->save();
     }
 }
