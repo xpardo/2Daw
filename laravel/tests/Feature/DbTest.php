@@ -27,7 +27,7 @@ class DbTest extends TestCase
     $count = DB::table('users')
             ->where('name', '=', 'admin')
             ->count();
-    $this->assertEquals($count, 1);
+    $this->assertEquals($count, 2);
     }
 
     public function test_admin_v2()
