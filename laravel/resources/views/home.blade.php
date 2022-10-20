@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+
+<link rel="stylesheet" href="{{ mix('css/app.css') }}">
+<script src="{{ mix('js/app.js') }}" defer></script>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -15,6 +18,9 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+                    <br>
+
+                    <a  class="btn btn-primary" href="{{url('files')}}"><u>files</u></a>
                 </div>
             </div>
         </div>
