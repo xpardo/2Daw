@@ -15,13 +15,9 @@ class FileController extends Controller
     public function index()
     {
         //
-      
-     
         return view("files.index",[
             "files" => File::all()
         ]);
-
- 
     }
 
     /**
@@ -32,10 +28,7 @@ class FileController extends Controller
     public function create()
     {
         //
-      
         return view('files.create');
- 
- 
     }
 
     /**
@@ -46,7 +39,6 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-        //
         
         // Validar fitxer
         $validatedData = $request->validate([
@@ -85,9 +77,7 @@ class FileController extends Controller
             // Patró PRG amb missatge d'error
             return redirect()->route("files.create")
                 ->with('error', 'ERROR uploading file');
-        }
-
-        
+        }        
     }
 
     /**
@@ -112,14 +102,8 @@ class FileController extends Controller
     public function edit(File $file)
     {
      
-    
-
-        
-
         return view('files.edit',compact('file'));
-      
 
-       
     }
 
     /**
@@ -143,7 +127,6 @@ class FileController extends Controller
         return redirect()->route('files.index')
             ->with('success','file updated successfully');
 
-    
     }
 
     /**
@@ -156,12 +139,10 @@ class FileController extends Controller
     {
         //
        
-
         $file->delete();
     
         return redirect()->route('files.index')
         ->with('success','file delete successfully');
-
 
     }
 }

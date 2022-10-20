@@ -22,9 +22,8 @@ Route::get('/', function (Request $request) {
     $request->session()->flash('info', $message);
     return view('welcome');
  });
- Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
- 
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -33,12 +32,12 @@ Route::get('/dashboard', function () {
 require __DIR__.'/auth.php';
 // ...
 Route::get('mail/test', [MailController::class, 'test'])->middleware(['auth']);
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-
-//..............................
+// --------------------------------------------------
 //Email
-//..............................
+// --------------------------------------------------
 
 Route::get('mail/test', [MailController::class, 'test']);
 // or
@@ -50,9 +49,9 @@ Auth::routes();
 
 
 
-//..............................
+// --------------------------------------------------
 //Crud File
-//..............................
+// --------------------------------------------------
 
 
 Route::resource('files', FileController::class);
