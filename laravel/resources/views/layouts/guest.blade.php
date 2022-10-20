@@ -15,6 +15,7 @@
     </head>
     <body>
         <div class="font-sans text-gray-900 antialiased">
+            @include('flash')
             {{ $slot }}
         </div>
     </body>
