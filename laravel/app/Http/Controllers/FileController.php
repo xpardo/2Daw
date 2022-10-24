@@ -14,7 +14,6 @@ class FileController extends Controller
      */
     public function index()
     {
-        //
         return view("files.index",[
             "files" => File::all()
         ]);
@@ -27,7 +26,6 @@ class FileController extends Controller
      */
     public function create()
     {
-        //
         return view('files.create');
     }
 
@@ -137,10 +135,8 @@ class FileController extends Controller
     */
     public function destroy(File $file)
     {
-        //
-       
+
         $file->delete();
-    
         return redirect()->route('files.index')
         ->with('success','file delete successfully');
 
