@@ -11,7 +11,7 @@
                 <div class="card">
                     <div class="card-header">{{ __('Files') }}</div>
                         <div class="card-body">
-                        <a  class="btn btn-primary" href="{{url("files/create")}}">Crear file </a></td>
+                        <a class="btn btn-primary" href="{{ route('files.create') }}" role="button">➕ Add new file</a>
                             <table class="table">
                                 <thead>
                                 
@@ -21,6 +21,9 @@
                                         <td scope="col">Filesize</td>             
                                         <td scope="col">Created</td>
                                         <td scope="col">Updated</td>
+                                        <td scope="col">Show</td>
+                                        <td scope="col">Edit</td>
+                                        <td scope="col">Delete</td>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -33,20 +36,11 @@
                                         <td>{{ $file->created_at }}</td>
                                         <td>{{ $file->updated_at }}</td>
                                     
-                                        <td><a class="btn btn-warning"  href="{{ route("files.edit", $file) }}">edit </a></td>
-    
-                                        <td> <form action="{{ route('files.destroy',$file) }}" method="POST">   
-                                            
-                                                @csrf
-                                                @method('DELETE')      
-                                                <button type="submit" class="btn btn-danger">Delete</button>
-                                            
-                                            </form></td>
-                                        
-                                        <td>
-                                            
-                                        </td>
-                                        
+                                        <td><a title="View" href="{{ route('files.show', $file) }}">👁️</a></td>
+                                        <td><a title="Edit" href="{{ route('files.edit', $file) }}">📝</a></td>
+                                        <td><a title="Delete" href="{{ route('files.show', [$file, 'delete' => 1]) }}">🗑️</a></td>
+
+                                  
                                     
                                     </tr>
                                 
@@ -60,10 +54,10 @@
         </div>
     </div>
 <center>
- @include('footer') 
+
  @endsection
  
- 
+
  
  
  
