@@ -9,7 +9,7 @@
                     <div class="card-body">
                     <span id="tar-nom">
                         <b><strong>By:</strong></b></span>
-                            <span class="Curs ">Xenia</span>
+                            <span class="Curs ">Xènia Pardo Ullod</span>
                         <div class="adr ">
                             <b><strong>Curs:</strong></b></span>
                                 <span class="Curs ">Daw 2</span>

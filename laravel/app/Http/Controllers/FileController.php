@@ -136,9 +136,16 @@ class FileController extends Controller
     public function destroy(File $file)
     {
 
+        $id = $file->id;
+        // Eliminar fitxer del disc 
+        \Storage::disk('public')->delete($file->filepath);
+        \Log::debug("Local storage OK");
+        // Eliminar registre de BD
         $file->delete();
-        return redirect()->route('files.index')
-        ->with('success','file delete successfully');
+        \Log::debug("DB storage OK");
+        // Patró PRG amb missatge d'èxit
+        return redirect()->route("files.index")
+            ->with('success', "File {$id} succesfully deleted.");
 
     }
 }
