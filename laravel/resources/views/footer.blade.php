@@ -13,6 +13,9 @@
                         <div class="adr ">
                             <b><strong>Curs:</strong></b></span>
                                 <span class="Curs ">Daw 2</span>
+                                <br>
+                            <b><strong>Grup:</strong></b></span>
+                                <span class="Grup ">01</span>
                         </div>
 
                     </div>
