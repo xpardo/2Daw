@@ -5,9 +5,9 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class EnsureUserHasRole
+class EnsureUserHasAnyRole
 {
-      /**
+       /**
     * Handle an incoming request.
     *
     * @param  \Illuminate\Http\Request  $request
@@ -16,16 +16,14 @@ class EnsureUserHasRole
     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
     */
 
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, ...$roles)
     {
-        if ($request->user()->role_id != $role) {
+        if (in_array($request->user()->role_id, $roles)) {
+            return $next($request);
+        } else {
             $url = $request->url();
             return redirect('home')
                 ->with('error', "Access denied to {$url}");
         }
-  
-        return $next($request);
     }
- 
-    
 }

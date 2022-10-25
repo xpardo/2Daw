@@ -2,13 +2,12 @@
   
 @section('content')
 
-<center>
+
     <div class="col-lg-12 margin-tb">
-        <div class="pull-left">
+        <center>
             <h2>New Files</h2>
-        </div>
+        </center>
     </div>
-</center>
 
 <div class="container">
     <div class="row justify-content-center">

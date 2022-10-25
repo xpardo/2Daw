@@ -11,7 +11,7 @@
                 <div class="card">
                     <div class="card-header">{{ __('Files') }}</div>
                         <div class="card-body">
-                        <a class="btn btn-primary" href="{{ route('files.create') }}" role="button">➕ Add new file</a>
+                        <b><a class="btn btn-primary" href="{{ route('files.create') }}" role="button">➕ Add new file</a></b>
                             <table class="table">
                                 <thead>
                                 
