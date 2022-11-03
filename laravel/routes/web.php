@@ -64,7 +64,6 @@ Route::resource('files', FileController::class)->middleware(['auth', 'role.any:1
 // --------------------------------------------------
 
 Route::resource('posts', PostController::class);
-Route::get('/post-list',[PostController::class,'postList'])->name('post.list');
 Route::post('/like-post/{id}',[PostController::class,'likePost'])->name('like.post');
 Route::post('/unlike-post/{id}',[PostController::class,'unlikePost'])->name('unlike.post');
-Route::resource('coment', CommentController::class);
+Route::resource('comment', CommentController::class);
