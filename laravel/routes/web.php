@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MailController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\FileController;
-
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -57,3 +58,13 @@ Auth::routes();
 /*  Route::resource('files', FileController::class); */
 
 Route::resource('files', FileController::class)->middleware(['auth', 'role.any:1,2,3,4']);
+
+// --------------------------------------------------
+//Crud Post / Coment
+// --------------------------------------------------
+
+Route::resource('posts', PostController::class);
+Route::get('/post-list',[PostController::class,'postList'])->name('post.list');
+Route::post('/like-post/{id}',[PostController::class,'likePost'])->name('like.post');
+Route::post('/unlike-post/{id}',[PostController::class,'unlikePost'])->name('unlike.post');
+Route::resource('coment', CommentController::class);
