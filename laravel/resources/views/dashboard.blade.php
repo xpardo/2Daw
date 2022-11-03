@@ -33,6 +33,8 @@
                 <div class="card-body">
                
                         <a href="{{ url('/files') }}">{{ __('Files') }}</a>
+                        <p>
+                        <a href="{{ url('/posts') }}">{{ __('Post') }}</a>
                     
 
                 </div>

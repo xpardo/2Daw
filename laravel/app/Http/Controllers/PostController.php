@@ -88,9 +88,10 @@ class PostController extends Controller
             $fullPath = \Storage::disk('public')->path($filePath);
             \Log::debug("File saved at {$fullPath}");
             // Desar dades a BD
-            $file = File::create([
+            $post = Post::create([
                 'filepath' => $filePath,
                 'filesize' => $fileSize,
+             
             ]);
             \Log::debug("DB storage OK");
             // Patró PRG amb missatge d'èxit
@@ -104,20 +105,19 @@ class PostController extends Controller
         }        
     }
     
-    /**
-     * Show the form for creating a new resource.
+   
+ /**
+     * Display the specified resource.
      *
+     * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-  
-
     public function show(Post $post)
     {
-        return view('posts.show', [
-            'posts' => $post
-        ]);
-    }
+        //
 
+        return view('posts.show',compact('posts'));
+    }
      /**
      * Remove the specified resource from storage.
      *

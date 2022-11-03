@@ -32,8 +32,10 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 // ...
-Route::get('mail/test', [MailController::class, 'test'])->middleware(['auth']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('mail/test', [MailController::class, 'test'])->middleware(['auth']);
+
 
 
 // --------------------------------------------------
@@ -60,10 +62,10 @@ Auth::routes();
 Route::resource('files', FileController::class)->middleware(['auth', 'role.any:1,2,3,4']);
 
 // --------------------------------------------------
-//Crud Post / Coment
+//Crud Post / Coment / Like
 // --------------------------------------------------
 
 Route::resource('posts', PostController::class);
+Route::resource('comment', CommentController::class);
 Route::post('/like-post/{id}',[PostController::class,'likePost'])->name('like.post');
 Route::post('/unlike-post/{id}',[PostController::class,'unlikePost'])->name('unlike.post');
-Route::resource('comment', CommentController::class);
