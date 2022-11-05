@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
 {
     use HasFactory;
-
+    use SoftDeletes;
    
     protected $dates = ['deleted_at'];
    
@@ -17,7 +18,12 @@ class Comment extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'post_id', 'parent_id', 'body'];
+    protected $fillable = [
+        'user_id', 
+        'post_id', 
+        'parent_id', 
+        'body'
+    ];
    
     /**
      * The belongs to Relationship

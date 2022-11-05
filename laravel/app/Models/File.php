@@ -13,5 +13,9 @@ class File extends Model
         'filepath',
         'filesize',
     ];
-
+    public function file()
+    {
+       return $this->hasOne(File::class);
+    }
+    
 }

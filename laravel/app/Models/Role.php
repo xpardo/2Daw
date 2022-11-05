@@ -9,10 +9,11 @@ class Role extends Model
 {
     use HasFactory;
 
-    const ROLE_AUTHOR = 1;
-    const ROLE_EDITOR = 2;
-    const ROLE_ADMIN  = 3;
-  
+    const ROLE_ADMIN = 1;
+    const ROLE_BASIC = 2;
+    const ROLE_TECH  = 3;
+    const ROLE_COORD = 4;
+
     /**
      * The attributes that are mass assignable.
      *

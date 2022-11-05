@@ -3,7 +3,7 @@
         <strong>{{ $comment->user->name }}</strong>
         <p>{{ $comment->body }}</p>
         <a href="" id="reply"></a>
-        <form method="post" action="{{ route('comments.store') }}">
+        <form method="post" action="{{ route('comment.store') }}">
             @csrf
             <div class="form-group">
                 <input type="text" name="body" class="form-control" />
@@ -12,9 +12,6 @@
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-warning" value="Reply" />
-            </div>
-            <div class="form-group">
-                <a class="btn btn-primary" href="{{ route('posts.index') }}">Back</a>
             </div>
         </form>
         @include('posts.commentsDisplay', ['comments' => $comment->replies])
