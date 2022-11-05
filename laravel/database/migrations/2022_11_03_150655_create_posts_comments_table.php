@@ -17,8 +17,8 @@ return new class extends Migration
             $table->increments('id');
             $table->string('title');
             $table->text('body');
-            $table->string('filepath', 255);
-            $table->integer('filesize');
+            $table->text('nombre');
+            $table->string('imagen', 255);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -65,7 +65,7 @@ Route::resource('files', FileController::class)->middleware(['auth', 'role.any:1
 //Crud Post / Coment / Like
 // --------------------------------------------------
 
-Route::resource('posts', PostController::class);
-Route::resource('comment', CommentController::class);
+Route::resource('posts', PostController::class)->middleware(['auth', 'role.any:1,2,3']);
+Route::resource('comment', CommentController::class)->middleware(['auth', 'role.any:1,2,3']);
+
 Route::post('/like-post/{id}',[PostController::class,'likePost'])->name('like.post');
-Route::post('/unlike-post/{id}',[PostController::class,'unlikePost'])->name('unlike.post');

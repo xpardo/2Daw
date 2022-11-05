@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 
 use App\Models\Post;
+
 
 class PostController extends Controller
 {
@@ -20,28 +22,24 @@ class PostController extends Controller
 
         return view("posts.index",[
             "posts" => Post::all()
-        ]);
+        ]); 
+        $posts = Post::all();
+
+       
     }
 
 
     public function likePost($id)
     {
         $post = Post::find($id);
-        $post->like();
+        $post->like;
         $post->save();
 
-        return redirect()->route('posts.list')->with('message','Post Like successfully!');
+        return redirect()->route('posts.index')->with('message','Post Like successfully!');
     }
 
-    public function unlikePost($id)
-    {
-        $post = Post::find($id);
-        $post->unlike();
-        $post->save();
-        
-        return redirect()->route('posts.list')->with('message','Post Like undo successfully!');
-    }
-   
+ 
+
     /**
      * Show the form for creating a new resource.
      *
@@ -60,49 +58,28 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $post = new Post();
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->nombre = $request->nombre;//nom de la imatge
 
-        $validatedData = $request->validate([
+        if($request->hasFile("imagen")){
+
+            $imagen = $request->file("imagen");
+            $nombreimagen = Str::slug($request->nombre).".".$imagen->guessExtension();
+            $ruta = public_path("img/post/");
+
+            //$imagen->move($ruta,$nombreimagen);
+            copy($imagen->getRealPath(),$ruta.$nombreimagen);
+
+            $post->imagen = $nombreimagen;            
             
-            'title'=>'required',
-            'body'=>'required',
-            'upload' => 'required|mimes:gif,jpeg,jpg,png|max:1024',
-        ]);
+        }
+     
+        $post->save();
+        return redirect('posts.show')
+        ->with('success','categori delete successfully');
     
-        // Obtenir dades del fitxer
-        $upload = $request->file('upload');
-        $fileName = $upload->getClientOriginalName();
-        $fileSize = $upload->getSize();
-        \Log::debug("Storing file '{$fileName}' ($fileSize)...");
-
-        // Pujar fitxer al disc dur
-        $uploadName = time() . '_' . $fileName;
-        $filePath = $upload->storeAs(
-            'uploads',      // Path
-            $uploadName ,   // Filename
-            'public'        // Disk
-        );
-    
-        if (\Storage::disk('public')->exists($filePath)) {
-            \Log::debug("Local storage OK");
-            $fullPath = \Storage::disk('public')->path($filePath);
-            \Log::debug("File saved at {$fullPath}");
-            // Desar dades a BD
-            $post = Post::create([
-                'filepath' => $filePath,
-                'filesize' => $fileSize,
-             
-            ]);
-            \Log::debug("DB storage OK");
-            // Patró PRG amb missatge d'èxit
-            return redirect()->route('posts.show', $post)
-                ->with('success', 'File successfully saved');
-        } else {
-            \Log::debug("Local storage FAILS");
-            // Patró PRG amb missatge d'error
-            return redirect()->route("posts.create")
-                ->with('error', 'ERROR uploading file');
-        }        
     }
     
    
@@ -116,7 +93,7 @@ class PostController extends Controller
     {
         //
 
-        return view('posts.show',compact('posts'));
+        return view('posts.show',compact('post'));
     }
      /**
      * Remove the specified resource from storage.

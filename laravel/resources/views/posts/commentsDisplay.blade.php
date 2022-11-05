@@ -3,7 +3,7 @@
         <strong>{{ $comment->user->name }}</strong>
         <p>{{ $comment->body }}</p>
         <a href="" id="reply"></a>
-        <form method="post" action="{{ route('comments.store') }}">
+        <form method="post" action="{{ route('comment.store') }}">
             @csrf
             <div class="form-group">
                 <input type="text" name="body" class="form-control" />

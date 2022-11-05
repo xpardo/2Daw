@@ -4,12 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Conner\Likeable\Likeable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class Post extends Model
 {
     use HasFactory;
+
     use SoftDeletes;
+
+  
   
     protected $dates = ['deleted_at'];
   
@@ -21,9 +26,17 @@ class Post extends Model
     protected $fillable = [
         'title', 
         'body',
-        'filepath',
-        'filesize',
+        'nombre',
+        'imagen',
     ];
+
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+        return $this->hasMany(Post::class);
+    }
+
    
     /**
      * The has Many Relationship
@@ -34,5 +47,9 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class)->whereNull('parent_id');
     }
+
+   
+
+
 }
 
