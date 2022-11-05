@@ -30,7 +30,6 @@ class Post extends Model
         'imagen',
     ];
 
-
     public function post()
     {
         return $this->belongsTo(Post::class);
@@ -47,9 +46,6 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class)->whereNull('parent_id');
     }
-
-   
-
 
 }
 
