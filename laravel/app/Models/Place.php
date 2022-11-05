@@ -9,12 +9,16 @@ class Place extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'name'
+        'name',
+        'description',
+        'latitude',
+        'longitude',
     ];
     public function places()
     {
         return $this->belongsTo(Place::class);
         return $this->hasMany(Place::class);
+        
     }
 
 }

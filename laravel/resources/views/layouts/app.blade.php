@@ -127,4 +127,3 @@
     </div>
 
 @include('footer')
-
