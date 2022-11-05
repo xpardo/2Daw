@@ -43,10 +43,11 @@
                   
                     <td>
                     
-                        <a href="{{ route('posts.show', $post->id) }}" class="btn btn-primary"> <i class="fas fad fa-eye"></i></a>
                         <form id="form" method="POST" action="{{ route('posts.destroy', $post) }}">
                             @csrf
                             @method("DELETE")
+                            <a href="{{ route('posts.show', $post->id) }}" class="btn btn-primary"> <i class="fas fad fa-eye"></i></a>
+
                             <button id="destroy" type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal">🗑️</button>
                         </form>
                         @include('posts/modal')  
