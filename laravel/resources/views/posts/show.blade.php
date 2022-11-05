@@ -15,8 +15,8 @@
                     </p>
                     
 
-                    <img  src="/img/post{{ $post->imagen}}" alt=""/>
-                    <img class="img-fluid" src="{{ asset('/img/post/'.$post->imagen) }}" title="Image preview"/>
+                  
+                    <img class="img-fluid" src="{{ asset('/img/post/'.$post->files) }}" title="files preview"/>
 
                     <hr />
                     

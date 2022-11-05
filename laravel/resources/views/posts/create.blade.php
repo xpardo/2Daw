@@ -24,7 +24,7 @@
                         </div>
                         <div class="form-group">
                             <label for="upload">File:</label>
-                            <input type="file" name="imagen">
+                            <input type="file" name="files">
                         </div>
                         <div class="form-group">
                         <button type="submit" class="btn btn-primary">Create</button>

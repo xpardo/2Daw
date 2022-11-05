@@ -17,8 +17,10 @@ return new class extends Migration
             $table->increments('id');
             $table->string('title');
             $table->text('body');
+            $table->float('latitude');
+            $table->float('longitude');
             $table->text('nombre');
-            $table->string('imagen', 255);
+            $table->string('files', 255);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -32,6 +34,33 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::table('likes', function (Blueprint $table) {
+            $table->unsignedBigInteger('post_id')                  
+                  ->nullable();
+            $table->foreign('post_id')
+                  ->references('id')->on('posts')
+                  ->onUpdate('cascade')
+                  ->onDelete('set null');
+        });
+        Schema::table('post_tags', function (Blueprint $table) {
+            $table->unsignedBigInteger('post_id')                  
+                  ->nullable();
+            $table->foreign('post_id')
+                  ->references('id')->on('posts')
+                  ->onUpdate('cascade')
+                  ->onDelete('set null');
+        });
+        Schema::table('comments', function (Blueprint $table) {
+            $table->unsignedBigInteger('post_id')                  
+                  ->nullable();
+            $table->foreign('post_id')
+                  ->references('id')->on('posts')
+                  ->onUpdate('cascade')
+                  ->onDelete('set null');
+        });
+        
+        
     }
    
     /**
@@ -41,6 +70,19 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::table('likes', function (Blueprint $table) {
+            $table->dropForeign(['post_id']);
+            $table->dropColumn('post_id');
+        });
+        Schema::table('comments', function (Blueprint $table) {
+            $table->dropForeign(['post_id']);
+            $table->dropColumn('post_id');
+        });
+        Schema::table('post_tags', function (Blueprint $table) {
+            $table->dropForeign(['post_id']);
+            $table->dropColumn('post_id');
+        });
+       
         Schema::dropIfExists('posts');
         Schema::dropIfExists('comments');
     }

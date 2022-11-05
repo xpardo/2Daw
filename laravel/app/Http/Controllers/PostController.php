@@ -63,16 +63,16 @@ class PostController extends Controller
         $post->body = $request->body;
         $post->nombre = $request->nombre;//nom de la imatge
 
-        if($request->hasFile("imagen")){
+        if($request->hasFile("files")){
 
-            $imagen = $request->file("imagen");
-            $nombreimagen = Str::slug($request->nombre).".".$imagen->guessExtension();
+            $files = $request->file("files");
+            $nombreimagen = Str::slug($request->nombre).".".$files->guessExtension();
             $ruta = public_path("img/post/");
 
             //$imagen->move($ruta,$nombreimagen);
-            copy($imagen->getRealPath(),$ruta.$nombreimagen);
+            copy($files->getRealPath(),$ruta.$nombreimagen);
 
-            $post->imagen = $nombreimagen;            
+            $post->files = $nombreimagen;            
             
         }
      

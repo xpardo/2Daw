@@ -12,7 +12,7 @@
                     <th scope="col">Titól</th>
                     <th scope="col">body</th>
                     <th scope="col">nom de la imatge</th>
-                    <th scope="col">imatge</th>
+                    <th scope="col">files</th>
                     <th scope="col">like</th>
                     <th scope="col" width="150px">Action</th>
                 </thead>
@@ -25,7 +25,7 @@
                     <td>{{ $post->nombre }}</td>
                     <td>
 
-                    <img class="img-fluid" src="{{ asset('/img/post/'.$post->imagen) }}" title="Image preview"/>
+                    <img class="img-fluid" src="{{ asset('/img/post/'.$post->files) }}" title="Image preview"/>
 
 
                     </td>
