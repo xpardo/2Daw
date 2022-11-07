@@ -44,7 +44,8 @@ class User extends Authenticatable
 
     public function user()
     {
-    return $this->belongsTo(User::class);
+        // foreign key does not follow conventions!!!
+        return $this->belongsTo(User::class, 'author_id');
     }
 
 }

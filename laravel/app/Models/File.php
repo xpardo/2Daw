@@ -15,7 +15,7 @@ class File extends Model
     ];
     public function file()
     {
-       return $this->hasOne(File::class);
+       return $this->belongsTo(File::class);
     }
     
 }
