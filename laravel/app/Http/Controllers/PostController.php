@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-
+use App\Models\File;
 use App\Models\Post;
 
 
@@ -22,12 +22,9 @@ class PostController extends Controller
      */
     public function index()
     {
-  
         return view("posts.index",[
             "posts" => Post::all()
         ]); 
-
-       
     }
 
 
@@ -79,8 +76,9 @@ class PostController extends Controller
         }
      
         $post->save();
-        return redirect('posts.show')
-        ->with('success','categori delete successfully');
+      
+        return redirect()->route('posts.show', $post)
+            ->with('success', 'File successfully saved');
     
     }
     
@@ -105,9 +103,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+       
         $post->delete();
-    
-        return redirect('posts.index')
-        ->with('success','categori delete successfully');
+        return redirect('posts')
+            ->with('success', "el post sa elminatat correctament.");
     }
 }

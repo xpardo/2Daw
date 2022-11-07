@@ -47,7 +47,7 @@
                             <a href="{{ route('posts.show', $post->id) }}" class="btn btn-primary"> <i class="fas fad fa-eye"></i></a>
 
                             <button id="destroy" type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal">🗑️</button>
-                        </form>
+                        </form>                        
                         @include('posts/modal')  
                     </td>
                 </tr>
