@@ -42,10 +42,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function user()
+    public function posts()
     {
-        // foreign key does not follow conventions!!!
-        return $this->belongsTo(User::class, 'author_id');
+        return $this->hasMany(Post::class);
     }
+    public function places()
+    {
+        return $this->hasMany(Place::class);
+    }
+
 
 }

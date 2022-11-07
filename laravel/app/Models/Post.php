@@ -26,15 +26,24 @@ class Post extends Model
     protected $fillable = [
         'title', 
         'body',
-        'nombre',
-        'imagen',
+        'file',
+        'latitude',
+        'longitude'
     ];
 
-    public function post()
+   
+
+    public function file()
     {
-        return $this->hasOne(Post::class);
-        return $this->hasMany(Post::class);
+       return $this->belongsTo(File::class);
     }
+    
+    public function user()
+    {
+        // foreign key does not follow conventions!!!
+        return $this->belongsTo(User::class, 'author_id');
+    }
+
 
    
     /**
