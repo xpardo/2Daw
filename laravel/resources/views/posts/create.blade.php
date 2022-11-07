@@ -19,10 +19,6 @@
                             <textarea name="body" rows="10" cols="30" class="form-control" required></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="upload">Nom de la imatge:</label>
-                            <input type="text" name="nombre"/>
-                        </div>
-                        <div class="form-group">
                             <label for="upload">File:</label>
                             <input type="file" name="files">
                         </div>

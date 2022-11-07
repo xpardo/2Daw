@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 use App\Models\Post;
 
 
 class PostController extends Controller
 {
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -18,12 +22,10 @@ class PostController extends Controller
      */
     public function index()
     {
-       
-
+  
         return view("posts.index",[
             "posts" => Post::all()
         ]); 
-        $posts = Post::all();
 
        
     }
@@ -61,7 +63,7 @@ class PostController extends Controller
         $post = new Post();
         $post->title = $request->title;
         $post->body = $request->body;
-        $post->nombre = $request->nombre;//nom de la imatge
+
 
         if($request->hasFile("files")){
 

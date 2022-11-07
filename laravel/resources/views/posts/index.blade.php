@@ -4,14 +4,13 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <h1>Las meves publicacions</h1>
+            <h1>Totes les publicacions</h1>
             <a href="{{ route('posts.create') }}" class="btn btn-success" style="float: right">Crea una publicació</a>
             <table class="table table-bordered">
                 <thead>
                     <th width="80px" scope="col">Id</th>
                     <th scope="col">Titól</th>
                     <th scope="col">body</th>
-                    <th scope="col">nom de la imatge</th>
                     <th scope="col">files</th>
                     <th scope="col">like</th>
                     <th scope="col" width="150px">Action</th>
@@ -22,7 +21,6 @@
                     <td>{{ $post->id }}</td>
                     <td>{{ $post->title }}</td>
                     <td>{{ $post->body }}</td>
-                    <td>{{ $post->nombre }}</td>
                     <td>
 
                     <img class="img-fluid" src="{{ asset('/img/post/'.$post->files) }}" title="Image preview"/>
