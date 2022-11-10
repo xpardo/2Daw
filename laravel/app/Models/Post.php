@@ -24,11 +24,11 @@ class Post extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 
         'body',
         'file',
         'latitude',
-        'longitude'
+        'longitude',
+        'author_id'
     ];
 
    

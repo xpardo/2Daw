@@ -7,18 +7,41 @@
             <div class="card">
                 <div class="card-body">
                     
-                    <br/>
-                    
-                    <h2>{{ $post->title }}</h2>
-                    <p>
-                        {{ $post->body }}
-                    </p>
+                    <tr>
+                        <td><strong>ID<strong></td>
+                        <td>{{ $post->id }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Body</strong></td>
+                        <td>{{ $post->body }}</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Lat</strong></td>
+                        <td>{{ $post->latitude }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lng</strong></td>
+                        <td>{{ $post->longitude }}</td>
+                    </tr>
                     
 
                   
-                    <img class="img-fluid" src="{{ asset('/img/post/'.$post->files) }}" title="files preview"/>
+                    <img class="img-fluid" src="{{ asset('storage/'.$file->filepath) }}" title="Image preview"/>
 
-                    <hr />
+                    <tr>
+                        <td><strong>Author</strong></td>
+                        <td>{{ $author->name }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Created</strong></td>
+                        <td>{{ $post->created_at }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Updated</strong></td>
+                        <td>{{ $post->updated_at }}</td>
+                    </tr>
+                 
                     
                     <h4>Display Comments</h4>
   

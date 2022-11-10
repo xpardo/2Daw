@@ -1,11 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MailController;
 use Illuminate\Http\Request;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PlaceController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,7 +38,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('mail/test', [MailController::class, 'test'])->middleware(['auth']);
 
 
-
+Auth::routes();
 // --------------------------------------------------
 //Email
 // --------------------------------------------------
@@ -45,10 +46,6 @@ Route::get('mail/test', [MailController::class, 'test'])->middleware(['auth']);
 Route::get('mail/test', [MailController::class, 'test']);
 // or
 // Route::get('mail/test', 'App\Http\Controllers\MailController@test');
-
-
-Auth::routes();
-
 
 
 
@@ -69,3 +66,10 @@ Route::resource('posts', PostController::class)->middleware(['auth', 'role.any:1
 Route::resource('comment', CommentController::class)->middleware(['auth', 'role.any:1,2,3']);
 
 Route::post('/like-post/{id}',[PostController::class,'likePost'])->name('like.post');
+
+// --------------------------------------------------
+//Crud Place
+// --------------------------------------------------
+
+Route::resource('places', PlaceController::class)
+    ->middleware(['auth', 'role:1']);
