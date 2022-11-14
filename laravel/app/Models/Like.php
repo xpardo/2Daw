@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Like extends Model
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
 
     protected $table = 'likeable_likes';

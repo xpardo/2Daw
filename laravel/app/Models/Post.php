@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
 
     use SoftDeletes;
@@ -23,25 +24,25 @@ class Post extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'title', 
-        'body',
-        'file',
-        'latitude',
-        'longitude'
-    ];
 
-   
+
+    protected $fillable = [
+        'body',
+        'file_id',
+        'latitude',
+        'longitude',
+        'author_id'
+    ];
 
     public function file()
     {
        return $this->belongsTo(File::class);
     }
-    
+
     public function user()
     {
-        // foreign key does not follow conventions!!!
         return $this->belongsTo(User::class, 'author_id');
+        return $this->belongsTo(User::class);
     }
 
 
@@ -54,7 +55,9 @@ class Post extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class)->whereNull('parent_id');
+        
     }
+    
 
 }
 

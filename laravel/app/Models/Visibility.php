@@ -5,23 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+
+
+class Visibility extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
+    protected $fillable = [
+        'name',
 
-   
-    const ROLE_author = 1;
-    const ROLE_editor = 2;
-    const ROLE_ADMIN = 3;
+    ];
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that should be cast to native types.
      *
-     * @var array<int, string>
+     * @var array
      */
-
-    protected $fillable=[
-        'name'
+    protected $casts = [
+        'id' => 'integer',
     ];
 }
