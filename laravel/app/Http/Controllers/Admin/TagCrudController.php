@@ -23,7 +23,7 @@ class TagCrudController extends CrudController {
 
   public function setupListOperation()
   {
-      $this->crud->setColumns(['name', 'slug']);
+      $this->crud->setColumns(['name']);
   }
 
   public function setupCreateOperation()
@@ -35,11 +35,7 @@ class TagCrudController extends CrudController {
         'type' => 'text',
         'label' => "Tag name"
       ]);
-      $this->crud->addField([
-        'name' => 'slug',
-        'type' => 'text',
-        'label' => "URL Segment (slug)"
-      ]);
+      
   }
 
   public function setupUpdateOperation()
