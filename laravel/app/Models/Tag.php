@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
-    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
+    
     use HasFactory;
 
     const ROLE_public = 1;
