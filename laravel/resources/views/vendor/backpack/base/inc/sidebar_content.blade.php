@@ -1,6 +1,6 @@
 {{-- This file is used to store sidebar items, inside the Backpack admin panel --}}
 
-<b style="color:black";>
+<p style="color:grey";>
 @hasanyrole('admin|editor')
    {{ __("Secció d'administradors i editors") }}
 @else
@@ -11,7 +11,7 @@
    {{ __("Podeu administrar usuaris!") }}
 @endcan
 
-</b>
+</p>
 
 
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}"><i class="la la-home nav-icon"></i> {{ trans('backpack::base.dashboard') }}</a></li>

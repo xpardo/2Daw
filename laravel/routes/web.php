@@ -67,7 +67,11 @@ Route::resource('files', FileController::class)->middleware(['auth', 'permission
 //Crud Post / Coment / Like
 // --------------------------------------------------
 
-Route::resource('posts', PostController::class)/* ->middleware(['auth', 'role.any:1,2,3']) */;
-Route::resource('comment', CommentController::class)/* ->middleware(['auth', 'role.any:1,2,3']) */;
+/*Route::resource('posts', PostController::class) ->middleware(['auth', 'role.any:1,2,3']) */;
+
+Route::resource('posts', PostController::class)->middleware(['auth', 'permission:posts']);
+
+/*Route::resource('comment', CommentController::class) ->middleware(['auth', 'role.any:1,2,3']) */;
+Route::resource('comment', CommentController::class)->middleware(['auth', 'permission:comment']);
 
 Route::post('/like-post/{id}',[PostController::class,'likePost'])->name('like.post');
