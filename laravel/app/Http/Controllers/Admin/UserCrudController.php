@@ -30,6 +30,15 @@ class UserCrudController extends CrudController
         CRUD::setModel(\App\Models\User::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/user');
         CRUD::setEntityNameStrings('user', 'users');
+
+        //a de donar error 404 per que no te permisos d’accés a la ruta corresponent.
+        if (!backpack_user()->hasPermissionTo('users.list')) {
+            CRUD::denyAccess('list');
+        }
+        if (!backpack_user()->hasRole('admin')) {
+            CRUD::denyAccess(['list','create','read','update','delete']);
+        }
+ 
     }
 
     /**

@@ -56,7 +56,7 @@ class User extends Authenticatable
         return $this->hasMany(Place::class);
     }
 
-    
+    public $guard_name = 'web';
 
 
 }

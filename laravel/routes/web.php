@@ -59,7 +59,9 @@ Auth::routes();
 
 /*  Route::resource('files', FileController::class); */
 
-Route::resource('files', FileController::class)/* ->middleware(['auth', 'role.any:1,2,3,4']) */;
+/*Route::resource('files', FileController::class) ->middleware(['auth', 'role.any:1,2,3,4']); */
+
+Route::resource('files', FileController::class)->middleware(['auth', 'permission:files']);
 
 // --------------------------------------------------
 //Crud Post / Coment / Like
