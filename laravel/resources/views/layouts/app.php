@@ -123,7 +123,7 @@
                 </div>
             </div>
         </nav>
-
+        @include('partials.language-switcher')
         <main class="py-4">
             @yield('content')
         </main>

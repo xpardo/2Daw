@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LanguageController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -75,3 +77,12 @@ Route::resource('posts', PostController::class)->middleware(['auth', 'permission
 Route::resource('comment', CommentController::class)->middleware(['auth', 'permission:comment']);
 
 Route::post('/like-post/{id}',[PostController::class,'likePost'])->name('like.post');
+
+
+// --------------------------------------------------
+//Idiom
+// --------------------------------------------------
+
+
+
+Route::get('/language/{locale}', [LanguageController::class]);

@@ -81,8 +81,14 @@ return [
     | to any of the locales which will be supported by the application.
     |
     */
-
-    'locale' => 'en',
+    // 'locale' => 'en',
+    'locale' => 'ca',
+    'available_locales' => [
+        'ca' => 'Català',
+        'es' => 'Castellano',
+        'en' => 'English',
+    ],
+    'fallback_locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------
