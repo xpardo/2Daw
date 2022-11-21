@@ -74,7 +74,7 @@ return [
         // "my_MM" => "Burmese (Myanmar [Burma])",
         // "my" => "Burmese",
         // "ca_ES" => "Catalan (Spain)",
-        // "ca" => "Catalan",
+        "ca" => "Catalan",
         // "tzm_Latn" => "Central Morocco Tamazight (Latin)",
         // "tzm_Latn_MA" => "Central Morocco Tamazight (Latin, Morocco)",
         // "tzm" => "Central Morocco Tamazight",

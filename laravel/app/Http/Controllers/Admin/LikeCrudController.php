@@ -39,6 +39,7 @@ class LikeCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        
         CRUD::column('likeable_id');
         CRUD::column('likeable_type');
         CRUD::column('user_id');

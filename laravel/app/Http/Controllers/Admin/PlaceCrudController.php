@@ -30,6 +30,7 @@ class PlaceCrudController extends CrudController
         CRUD::setModel(\App\Models\Place::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/place');
         CRUD::setEntityNameStrings('place', 'places');
+        
     }
 
     /**
@@ -40,7 +41,7 @@ class PlaceCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('name');
+        CRUD::column('name')->label(__('fields.name'));
         CRUD::column('file'); 
         CRUD::column('description');
         CRUD::column('latitude');

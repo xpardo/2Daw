@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Spatie\Permission\Models\Role as SpatieRole;
 class Tag extends Model
 {
     
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
 
     const ROLE_public = 1;
@@ -24,12 +25,5 @@ class Tag extends Model
         'name',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'integer',
-    ];
+    
 }

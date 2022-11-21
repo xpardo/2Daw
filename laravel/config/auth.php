@@ -97,6 +97,14 @@ return [
         ],
     ],
 
+    'route' => [
+        'prefix' => 'translations',
+        'middleware' => [
+	        'web',
+	        'auth',
+		],
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Password Confirmation Timeout

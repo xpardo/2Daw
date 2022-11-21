@@ -86,3 +86,4 @@ Route::post('/like-post/{id}',[PostController::class,'likePost'])->name('like.po
 
 
 Route::get('/language/{locale}', [LanguageController::class]);
+
