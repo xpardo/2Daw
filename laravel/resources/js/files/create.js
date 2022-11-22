@@ -5,10 +5,11 @@ const form = document.getElementById("create")
  
 form.addEventListener("submit", function( event ) {
    // Reset errors messages
+   document.getElementById("error").reset();
    // ...
-    document.getElementById("error").reset();
-
-
+    var error = document.getElementById("error")
+    
+    //...
    // Create validation
 
    let data = {
@@ -28,8 +29,19 @@ form.addEventListener("submit", function( event ) {
        console.log(errors)
        // Show error messages
         for(let inputName in errors) {
-            document.getElementById("file").innerHTML = "col·loca una imatge";
+            //-----
+            if (isNaN(document.getElementById("file").value))
+            {
+                // Changing content and color of content
+                error.textContent = "col·loca una imatge"
+                error.style.color = "red"
+            } else {
+                error.textContent = ""
+            }
+            //-----
         }
+
+        
        // Avoid submit
        event.preventDefault()
        return false
