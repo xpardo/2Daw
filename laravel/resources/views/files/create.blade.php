@@ -1,7 +1,7 @@
 @extends('layouts.app')
   
 @section('content')
-
+@yield('/resources/js/files/create.js') 
 
     <div class="col-lg-12 margin-tb">
         <center>
@@ -26,7 +26,7 @@
                                 <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                                 <div class="form-group">
                                     <label for="upload">File:</label>
-                                    <input type="file" class="form-control" name="upload"/>
+                                    <input type="file" id="file" class="form-control" name="upload"/>
                                 </div>
                             
                                 
@@ -42,7 +42,6 @@
         </div>
     </div>
 </div>
-
 
  
 @endsection

@@ -1,5 +1,5 @@
 <?php
-
+ 
 return [
    'failed' => 'Estos credenciales no coinciden con nuestros registros.',
    'password' => 'La contraseña proporcionada no es correcta.',

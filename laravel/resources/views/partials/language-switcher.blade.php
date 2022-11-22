@@ -9,4 +9,8 @@
        @endif
    @endforeach
    </ul>       
+   <!----Multi-idioma----->
+   <script>
+        const currentLocale = {{ Js::from($currentLocale) }};
+    </script>
 </div>

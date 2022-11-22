@@ -18,6 +18,7 @@
             font-weight: bold;
         }
     </style>
+  
     <script>
         jQuery(document).ready(function($){
 
@@ -318,7 +319,7 @@
                 <button type="submit" class="btn btn-primary" data-disable-with="Publishing.." >Publish all</button>
             </form>
         </fieldset>
-
+      
     <?php endif; ?>
 </div>
 
