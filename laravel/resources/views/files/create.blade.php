@@ -18,7 +18,7 @@
                     <div class="card-body">
                         
 
-                        <form action="{{ route('files.store') }}" method="POST" enctype="multipart/form-data">
+                        <form id="error" action="{{ route('files.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                         
                             <div class="row">
