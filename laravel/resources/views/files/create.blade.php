@@ -1,7 +1,9 @@
 @extends('layouts.app')
   
 @section('content')
-@yield('/resources/js/files/create.js') 
+
+
+@yield('resources/js/files/create') 
 
     <div class="col-lg-12 margin-tb">
         <center>
@@ -18,15 +20,20 @@
                     <div class="card-body">
                         
 
-                        <form id="error" action="{{ route('files.store') }}" method="POST" enctype="multipart/form-data">
+                        <form id="file" action="{{ route('files.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                         
                             <div class="row">
                                 
                                 <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                                 <div class="form-group">
-                                    <label for="upload">File:</label>
-                                    <input type="file" id="file" class="form-control" name="upload"/>
+                                    <label for="upload">{{__('FILE')}}</label>
+                                    <input type="file" id="file" name="upload" class="form-control @error('file') is-invalid @enderror"  value="{{ old('file') }}"/>
+                                    @error('file')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             
                                 
@@ -42,6 +49,7 @@
         </div>
     </div>
 </div>
+
 
  
 @endsection

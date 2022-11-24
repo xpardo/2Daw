@@ -72,7 +72,7 @@ Route::resource('files', FileController::class)->middleware(['auth', 'permission
 Route::resource('posts', PostController::class)
 /*Route::resource('posts', PostController::class) ->middleware(['auth', 'role.any:1,2,3']) */;
 
-/* Route::resource('posts', PostController::class)->middleware(['auth', 'permission:posts']); */
+/* Route::resource('posts', PostController::class)->->middleware(['auth', 'role:admin']); */
 
 /*Route::resource('comment', CommentController::class) ->middleware(['auth', 'role.any:1,2,3']) */;
 Route::resource('comment', CommentController::class)->middleware(['auth', 'permission:comment']);

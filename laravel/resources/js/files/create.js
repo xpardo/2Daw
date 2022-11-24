@@ -5,9 +5,9 @@ const form = document.getElementById("create")
  
 form.addEventListener("submit", function( event ) {
    // Reset errors messages
-   document.getElementById("error").reset();
+   document.getElementById("upload").reset();
    // ...
-    var error = document.getElementById("error")
+   /*  var errors = document.getElementById("upload") */
     
     //...
    // Create validation
@@ -30,18 +30,12 @@ form.addEventListener("submit", function( event ) {
        // Show error messages
         for(let inputName in errors) {
             //-----
-            if (isNaN(document.getElementById("file").value))
-            {
-                // Changing content and color of content
-                error.textContent = "col·loca una imatge"
-                error.style.color = "red"
-            } else {
-                error.textContent = ""
-            }
+            errors.textContent = "col·loca una imatge"
+            errors.style.color = "red"
+           
             //-----
         }
 
-        
        // Avoid submit
        event.preventDefault()
        return false
