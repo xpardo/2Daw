@@ -12,10 +12,8 @@ class Post extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
-
     use SoftDeletes;
 
-  
   
     protected $dates = ['deleted_at'];
   
@@ -42,11 +40,20 @@ class Post extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'author_id');
-        return $this->belongsTo(User::class);
     }
 
 
-   
+    public function liked()
+    {
+        return $this->belongsToMany(User::class, 'likes');
+    }
+
+    public function visibility()
+    {
+        return $this->belongsToMany(Post::class,);
+    }
+
+       
     /**
      * The has Many Relationship
      *
@@ -57,7 +64,6 @@ class Post extends Model
         return $this->hasMany(Comment::class)->whereNull('parent_id');
         
     }
-    
 
 }
 
