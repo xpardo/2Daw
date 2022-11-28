@@ -60,4 +60,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Place::class, 'author_id');
     }
 
+
+
 }

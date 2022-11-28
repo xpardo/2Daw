@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\PostRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\FileRequest;

@@ -1,13 +1,7 @@
 import _ from 'lodash';
-
-import './bootstrap';
-
-import '../sass/app.scss'
 window._ = _;
 
 import 'bootstrap';
-
-
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

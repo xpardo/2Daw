@@ -4,6 +4,7 @@
 use App\Http\Requests\TagCrudRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\Log;
 
 
 class TagCrudController extends CrudController {

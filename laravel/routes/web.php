@@ -61,20 +61,20 @@ Auth::routes();
 
 Route::resource('files', FileController::class); 
 
-/*Route::resource('files', FileController::class) ->middleware(['auth', 'role.any:1,2,3,4']); */
 /* 
-Route::resource('files', FileController::class)->middleware(['auth', 'permission:files']); */
-
+Route::resource('files', FileController::class)
+    ->middleware(['auth', 'permission:files']);
+*/
 // --------------------------------------------------
 //Crud Post / Coment / Like
 // --------------------------------------------------
 
 Route::resource('posts', PostController::class)
-/*Route::resource('posts', PostController::class) ->middleware(['auth', 'role.any:1,2,3']) */;
 
-/* Route::resource('posts', PostController::class)->->middleware(['auth', 'role:admin']); */
+/* Route::resource('posts', PostController::class)->middleware(['auth', 'permission:posts']); */
 
 /*Route::resource('comment', CommentController::class) ->middleware(['auth', 'role.any:1,2,3']) */;
+
 Route::resource('comment', CommentController::class)->middleware(['auth', 'permission:comment']);
 
 Route::post('/like-post/{id}',[PostController::class,'likePost'])->name('like.post');
@@ -86,5 +86,5 @@ Route::post('/like-post/{id}',[PostController::class,'likePost'])->name('like.po
 
 
 
-Route::get('/language/{locale}', [LanguageController::class]);
+Route::get('/language/{locale}', [App\Http\Controllers\LanguageController::class, 'language']);
 

@@ -8,7 +8,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\File;
 use App\Models\Post;
-
+use App\Models\Visibility;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {

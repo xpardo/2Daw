@@ -148,4 +148,6 @@ class FileController extends Controller
             ->with('success', "File {$id} succesfully deleted.");
 
     }
+ 
+
 }

@@ -1,9 +1,16 @@
 @extends('layouts.app')
-  
+
+
 @section('content')
-
-
+    @include('flash')
 @yield('resources/js/files/create') 
+
+
+
+<script src="js/files/create.js"></script>
+<script>
+  Validator.useLang('es');
+</script>
 
     <div class="col-lg-12 margin-tb">
         <center>

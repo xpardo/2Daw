@@ -31,10 +31,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
 
-    <script type="module" src="http://localhost:3000/resources/scripts/main.ts"></script>
-    <script type="module" src="http://localhost:3000/resources/js/some-script.js"></script>
-    <script type="module" src="http://laravel.local/build/assets/main.66e83946.js"></script>
-    <script type="module" src="http://laravel.local/build/assets/some-script.6d3515d2.js"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -74,6 +70,7 @@
   <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css">
   <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
   <link rel="stylesheet" href="path/to/line-awesome/css/line-awesome-font-awesome.min.css">
+ 
 </head>
 <body>
     <div id="app">
@@ -89,6 +86,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
+              
                     @include('partials.language-switcher')
                     </ul>
 
