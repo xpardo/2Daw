@@ -22,6 +22,8 @@ return new class extends Migration
             $table->float('longitude', 8, 5); // 180 to -180
             $table->unsignedBigInteger('author_id');
             $table->foreign('author_id')->references('id')->on('users');
+            $table->unsignedBigInteger('visibility_id');
+            $table->foreign('visibility_id')->references('id')->on('visibilities');
             $table->softDeletes();
             $table->timestamps();
         });

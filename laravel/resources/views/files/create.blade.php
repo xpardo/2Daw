@@ -1,10 +1,8 @@
 @extends('layouts.app')
-
-
 @section('content')
     @include('flash')
-@yield('resources/js/files/create') 
 
+    @yield('resources/js/files/create.js')
 
 
 <script src="js/files/create.js"></script>

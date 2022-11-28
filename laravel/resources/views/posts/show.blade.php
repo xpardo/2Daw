@@ -36,6 +36,20 @@
                             <input type="submit" class="btn btn-success" value="Add Comment" />
                             <a class="btn btn-primary" href="{{ route('posts.index') }}">Back</a>
                         </div>
+
+
+                        @if($is_like == false)
+                            <form action="{{ route('posts.like',$post) }}" method="post" class="favButton centrar" title="Add to likes">
+                                @csrf 
+                                <button class="standardButton"><i class="fas fa-thumbs-up"></i></button>
+                            </form>
+                        @else
+                            <form action="{{ route('posts.unlike',$post) }}" method="post" class="favButton centrar" title="Remove from likes">
+                                @csrf 
+                                @method('DELETE')
+                                <button type="submit" class="standardButton"><i class="fas fa-thumbs-down"></i></button>
+                            </form>
+                        @endif
                     </form>
                 </div>
             </div>

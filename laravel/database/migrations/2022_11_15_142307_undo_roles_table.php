@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique();
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['role_id']);
+            $table->dropColumn('role_id');
         });
-
-        
-
+        Schema::drop('roles');
     }
 
     /**
@@ -29,9 +27,20 @@ return new class extends Migration
      */
     public function down()
     {
-       
-
-        Schema::dropIfExists('roles');
+        Schema::create('roles', function (Blueprint $table) {
+            //$table->unsignedBigInteger('id')->autoincrementable();
+            //$table->primary('id');
+            $table->id();
+            $table->string('name')->unique();
+        });
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedBigInteger('role_id')->nullable();
+            $table->foreign('role_id')->references('id')->on('roles');
+        });
+        Artisan::call('db:seed', [
+            '--class' => 'RoleSeeder',
+            '--force' => true
+         ]);
     }
     
 };

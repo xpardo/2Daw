@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -36,7 +35,10 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+
+        return view("posts.create", [
+            "visibilities" => Visibility::all()
+        ]);
     }
     
     /**
@@ -50,7 +52,6 @@ class PostController extends Controller
         
         // Validar dades del formulari
         $validatedData = $request->validate([
-            'title'         => 'required',
             'body'          => 'required',
             'upload'        => 'required|mimes:gif,jpeg,jpg,png,mp4|max:2048',
             'latitude'      => 'required',
@@ -59,7 +60,6 @@ class PostController extends Controller
         ]);
         
         // Obtenir dades del formulari
-        $title          = $request->get('title');
         $body           = $request->get('body');
         $upload         = $request->file('upload');
         $latitude       = $request->get('latitude');
@@ -74,7 +74,6 @@ class PostController extends Controller
             // Desar dades a BD
             Log::debug("Saving post at DB...");
             $post = Post::create([
-                'title'         => $title,
                 'body'          => $body,
                 'file_id'       => $file->id,
                 'latitude'      => $latitude,
@@ -160,7 +159,7 @@ class PostController extends Controller
         return redirect()->route('posts.index')->with('message','Post Like successfully!');
     }
 
-    public function unLike(Posrt $posrt)
+    public function unlike(Posrt $posrt)
     {
         $user=User::find($post->author_id);
         $like = Like::where([

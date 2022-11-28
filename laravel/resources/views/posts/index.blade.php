@@ -8,6 +8,7 @@
         <div class="col-md-12">
             <h1>Totes les publicacions</h1>
             <a href="{{ route('posts.create') }}" class="btn btn-success" style="float: right">Crea una publicació</a>
+        
             <table class="table table-bordered">
                 <thead>
                     <th width="80px" scope="col">Id</th>
@@ -15,7 +16,6 @@
                     <th scope="col">files</th>
                     <th scope="col">Lat</th>
                     <th scope="col">Long</th>
-                    <th scope="col">like</th>
                     <th scope="col" width="150px">Action</th>
                 </thead>
                 <tbody>

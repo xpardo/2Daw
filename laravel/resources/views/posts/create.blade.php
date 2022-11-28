@@ -1,6 +1,16 @@
 @extends('layouts.app')
    
 @section('content')
+
+@if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 @yield('resources/js/files/create.js')
 
 <div class="container">
@@ -31,6 +41,15 @@
                         <label for="longitude">{{ _('Longitude') }}</label>
                         <input type="text" id="longitude" name="longitude" class="form-control"
                                 value="1.7282036"/>
+                    </div>
+                    <div class="form-group">     
+                        <label for="visibility">{{ _('visibility') }}</label>          
+                        <select class="inputBackground"  name="visibility_id" class="form-control">
+                            @foreach($visibilities as $visibility)
+                                <option value="{{__($visibility->id)}}">{{__($visibility->name)}}</option>
+                            @endforeach 
+                        </select>
+                                                        
                     </div>
                         
                         <div class="form-group">

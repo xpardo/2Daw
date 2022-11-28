@@ -72,7 +72,7 @@
   <link rel="stylesheet" href="path/to/line-awesome/css/line-awesome-font-awesome.min.css">
  
 </head>
-<body>
+
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -138,4 +138,6 @@
     </div>
 
 @include('footer')
+@include('lengu')
+
 
