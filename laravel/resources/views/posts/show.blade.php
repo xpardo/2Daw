@@ -7,41 +7,18 @@
             <div class="card">
                 <div class="card-body">
                     
-                    <tr>
-                        <td><strong>ID<strong></td>
-                        <td>{{ $post->id }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Body</strong></td>
-                        <td>{{ $post->body }}</td>
-                    </tr>
-
-                    <tr>
-                        <td><strong>Lat</strong></td>
-                        <td>{{ $post->latitude }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Lng</strong></td>
-                        <td>{{ $post->longitude }}</td>
-                    </tr>
+                    <br/>
+                    
+                    <h2>{{ $post->title }}</h2>
+                    <p>
+                        {{ $post->body }}
+                    </p>
                     
 
                   
-                    <img class="img-fluid" src="{{ asset('storage/'.$file->filepath) }}" title="Image preview"/>
+                    <img class="img-fluid" src="{{ asset('/img/post/'.$post->files) }}" title="files preview"/>
 
-                    <tr>
-                        <td><strong>Author</strong></td>
-                        <td>{{ $author->name }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Created</strong></td>
-                        <td>{{ $post->created_at }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Updated</strong></td>
-                        <td>{{ $post->updated_at }}</td>
-                    </tr>
-                 
+                    <hr />
                     
                     <h4>Display Comments</h4>
   
@@ -59,6 +36,20 @@
                             <input type="submit" class="btn btn-success" value="Add Comment" />
                             <a class="btn btn-primary" href="{{ route('posts.index') }}">Back</a>
                         </div>
+
+
+                        @if($is_like == false)
+                            <form action="{{ route('posts.like',$post) }}" method="post" class="favButton centrar" title="Add to likes">
+                                @csrf 
+                                <button class="standardButton"><i class="fas fa-thumbs-up"></i></button>
+                            </form>
+                        @else
+                            <form action="{{ route('posts.unlike',$post) }}" method="post" class="favButton centrar" title="Remove from likes">
+                                @csrf 
+                                @method('DELETE')
+                                <button type="submit" class="standardButton"><i class="fas fa-thumbs-down"></i></button>
+                            </form>
+                        @endif
                     </form>
                 </div>
             </div>

@@ -1,12 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
 use App\Http\Controllers\MailController;
+use Illuminate\Http\Request;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PostsCrudController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\PlaceController;
+use App\Http\Controllers\LanguageController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,14 +33,14 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+
 // ...
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('mail/test', [MailController::class, 'test'])->middleware(['auth']);
 
+require __DIR__.'/auth.php';
 
-Auth::routes();
 // --------------------------------------------------
 //Email
 // --------------------------------------------------
@@ -48,28 +50,51 @@ Route::get('mail/test', [MailController::class, 'test']);
 // Route::get('mail/test', 'App\Http\Controllers\MailController@test');
 
 
+Auth::routes();
+
+
+
 
 // --------------------------------------------------
 //Crud File
 // --------------------------------------------------
 
 
-/*  Route::resource('files', FileController::class); */
+Route::resource('files', FileController::class); 
 
-Route::resource('files', FileController::class)->middleware(['auth', 'role.any:1,2,3,4']);
-
-// --------------------------------------------------
-//Crud Post / Coment / Like
-// --------------------------------------------------
-
-Route::resource('posts', PostController::class)->middleware(['auth', 'role.any:1,2,3']);
-Route::resource('comment', CommentController::class)->middleware(['auth', 'role.any:1,2,3']);
-
-Route::post('/like-post/{id}',[PostController::class,'likePost'])->name('like.post');
+/* 
+Route::resource('files', FileController::class)
+    ->middleware(['auth', 'permission:files']);
+*/
 
 // --------------------------------------------------
-//Crud Place
+//Crud Post / Coment
 // --------------------------------------------------
 
-Route::resource('places', PlaceController::class)
-    ->middleware(['auth', 'role:1']);
+Route::resource('posts', PostController::class);
+
+/* Route::resource('posts', PostController::class)->middleware(['auth', 'permission:posts']); */
+
+
+Route::resource('comment', CommentController::class)->middleware(['auth', 'permission:comment']);
+
+
+
+// --------------------------------------------------
+//Likes
+// --------------------------------------------------
+/* 
+Route::post('/like-post/{id}',[PostController::class,'likePost'])->name('like.post'); */
+
+Route::post('/posts/{post}/likes', [App\Http\Controllers\PostController::class, 'likes'])->name('posts.likes');
+Route::delete('/posts/{post}/likes', [App\Http\Controllers\PostController::class, 'unlike'])->name('posts.unlike');
+
+
+// --------------------------------------------------
+//Idiom
+// --------------------------------------------------
+
+
+
+Route::get('/language/{locale}', [App\Http\Controllers\LanguageController::class, 'language']);
+

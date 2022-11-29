@@ -8,14 +8,14 @@
         <div class="col-md-12">
             <h1>Totes les publicacions</h1>
             <a href="{{ route('posts.create') }}" class="btn btn-success" style="float: right">Crea una publicació</a>
+        
             <table class="table table-bordered">
                 <thead>
                     <th width="80px" scope="col">Id</th>
                     <th scope="col">body</th>
                     <th scope="col">files</th>
-                    <td scope="col">Lat</td>
-                    <td scope="col">Lng</td>
-                    <th scope="col">like</th>
+                    <th scope="col">Lat</th>
+                    <th scope="col">Long</th>
                     <th scope="col" width="150px">Action</th>
                 </thead>
                 <tbody>
@@ -29,16 +29,7 @@
                     <td>{{ $post->created_at }}</td>
                     <td>{{ $post->updated_at }}</td>
                     
-                    <td>
-                
-                        <form action="{{ route('like.post', $post->id) }}"method="post">
-                            @csrf
-                            <button
-                                class="{{ $post->liked ? '' : '' }} ">
-                                <i class="fas fa-thumbs-up"></i> {{ $post->likeCount }}
-                            </button>
-                        </form>
-                    </td>
+                 
                   
                     <td>
                     
@@ -61,4 +52,4 @@
         </div>
     </div>
 </div>
-@endsection    
+@endsection   

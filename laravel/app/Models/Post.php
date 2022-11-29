@@ -10,11 +10,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
-
     use SoftDeletes;
 
-  
   
     protected $dates = ['deleted_at'];
   
@@ -23,29 +22,38 @@ class Post extends Model
      *
      * @var array
      */
+
+
     protected $fillable = [
         'body',
-        'file',
+        'file_id',
         'latitude',
         'longitude',
         'author_id'
     ];
 
-   
-
     public function file()
     {
        return $this->belongsTo(File::class);
     }
-    
+
     public function user()
     {
-        // foreign key does not follow conventions!!!
         return $this->belongsTo(User::class, 'author_id');
     }
 
 
-   
+    public function liked()
+    {
+        return $this->belongsToMany(User::class, 'likes');
+    }
+
+    public function visibility()
+    {
+        return $this->belongsToMany(Post::class,);
+    }
+
+       
     /**
      * The has Many Relationship
      *
@@ -54,6 +62,7 @@ class Post extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class)->whereNull('parent_id');
+        
     }
 
 }

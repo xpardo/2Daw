@@ -15,16 +15,28 @@ return new class extends Migration
     {
         Schema::create('places', function (Blueprint $table) {
             $table->id();
-            $table->string('body', 255); 
-            $table->unsignedBigInteger('file_id');
-            $table->foreign('file_id')->references('id')->on('files');
-            $table->float('latitude', 8, 5);  // 90  to -90
-            $table->float('longitude', 8, 5); // 180 to -180
-            $table->unsignedBigInteger('author_id');
-            $table->foreign('author_id')->references('id')->on('users');
+            $table->string('name',255);
+            $table->string('description',255);
+            $table->float('latitude:');
+            $table->float('longitude');
             $table->timestamps();
         });
-    
+        Schema::table('reviews', function (Blueprint $table) {
+            $table->unsignedBigInteger('place_id')                  
+                  ->nullable();
+            $table->foreign('place_id')
+                  ->references('id')->on('places')
+                  ->onUpdate('cascade')
+                  ->onDelete('set null');
+        });
+        Schema::table('favorites', function (Blueprint $table) {
+            $table->unsignedBigInteger('place_id')                  
+                  ->nullable();
+            $table->foreign('place_id')
+                  ->references('id')->on('places')
+                  ->onUpdate('cascade')
+                  ->onDelete('set null');
+        });
     }
 
     /**
@@ -34,6 +46,14 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::table('reviews', function (Blueprint $table) {
+            $table->dropForeign(['place_id']);
+            $table->dropColumn('place_id');
+        });
+        Schema::table('favorites', function (Blueprint $table) {
+            $table->dropForeign(['place_id']);
+            $table->dropColumn('place_id');
+        });
         Schema::dropIfExists('places');
     }
 };

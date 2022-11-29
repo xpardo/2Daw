@@ -22,7 +22,6 @@
 
                     <a  class="btn btn-primary" href="{{url('files')}}"><u>files</u></a>
                     <p><a  class="btn btn-primary" href="{{url('posts')}}"><u>posts</u></a>
-                    <p><a  class="btn btn-primary" href="{{url('places')}}"><u>place</u></a>
                 </div>
             </div>
         </div>

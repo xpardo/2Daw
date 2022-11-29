@@ -53,9 +53,6 @@ class TestMail extends Mailable
     {
         return new Content(
             markdown: 'mails.testmail',
-            with: [
-                'content' => $this->content,
-            ],
         );
     }
 

@@ -9,25 +9,28 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
+
 class File extends Model
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
 
     protected $fillable = [
         'filepath',
         'filesize',
     ];
-    
+
     public function post()
     {
-       return $this->hasOne(Post::class);
+        return $this->hasOne(Post::class);
     }
     
     public function place()
     {
         return $this->hasOne(Place::class);
     }
-      /**
+
+    /**
      * Store uploaded file at disk and DB
      * 
      * @param UploadedFile $upload
