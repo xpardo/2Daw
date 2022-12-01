@@ -129,6 +129,74 @@ class PostController extends Controller
          
          
     }
+    /**
+     * EDIT
+     */
+
+
+    public function edit(Post $post)
+    {
+        // Comprovar si l'usuari/a pot editar (PostPolicy)
+        $this->authorize('update', $post);
+
+        return view("posts.edit", [
+            'post'   => $post,
+            'file'   => $post->file,
+            'author' => $post->user,
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Post $post)
+    {
+        // Comprovar si l'usuari/a pot editar (PostPolicy)
+        $this->authorize('update', $post);
+
+        // Validar dades del formulari
+        $validatedData = $request->validate([
+            'body'       => 'required',
+            'upload'     => 'nullable|mimes:gif,jpeg,jpg,png,mp4|max:2048',
+            'latitude'   => 'required',
+            'longitude'  => 'required',
+            'visibility' => 'required|exists:visibilities,id',
+        ]);
+
+        // Obtenir dades del formulari
+        $body      = $request->get('body');
+        $upload    = $request->file('upload');
+        $latitude  = $request->get('latitude');
+        $longitude = $request->get('longitude');
+        $visibility  = $request->get('visibility');
+
+        // Desar fitxer (opcional)
+        if (is_null($upload) || $post->file->diskSave($upload)) {
+            // Actualitzar dades a BD
+            Log::debug("Updating DB...");
+            $post->body           = $body;
+            $post->latitude       = $latitude;
+            $post->longitude      = $longitude;
+            $post->visibility_id = $visibility;
+            $post->save();
+            Log::debug("DB storage OK");
+            // Patró PRG amb missatge d'èxit
+            return redirect()->route('posts.show', $post)
+                ->with('success', __(':resource successfully updated', [
+                    'resource' => __('resources.post')
+                ]));
+        } else {
+            // Patró PRG amb missatge d'error
+            return redirect()->route("posts.edit")
+                ->with('error', __('ERROR Uploading file'));
+        }
+    }
+
+
      /**
      * Remove the specified resource from storage.
      *

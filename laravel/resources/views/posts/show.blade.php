@@ -36,21 +36,34 @@
                             <input type="submit" class="btn btn-success" value="Add Comment" />
                             <a class="btn btn-primary" href="{{ route('posts.index') }}">Back</a>
                         </div>
-
-
-                        @if($is_like == false)
-                            <form action="{{ route('posts.like',$post) }}" method="post" class="favButton centrar" title="Add to likes">
-                                @csrf 
-                                <button class="standardButton"><i class="fas fa-thumbs-up"></i></button>
-                            </form>
-                        @else
-                            <form action="{{ route('posts.unlike',$post) }}" method="post" class="favButton centrar" title="Remove from likes">
-                                @csrf 
-                                @method('DELETE')
-                                <button type="submit" class="standardButton"><i class="fas fa-thumbs-down"></i></button>
-                            </form>
-                        @endif
+                        
+                       
                     </form>
+
+                     <!-- Buttons -->
+                    <div class="container" style="margin-bottom:20px">
+                        <a class="btn btn-warning" href="{{ route('posts.edit', $post) }}" role="button">📝 {{ __('actions.edit') }}</a>
+                        <form id="form" method="POST" action="{{ route('posts.destroy', $post) }}" style="display: inline-block;">
+                            @csrf
+                            @method("DELETE")
+                            <button id="destroy" type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal">🗑️ {{ __('actions.delete') }}</button>
+                        </form>
+                        <a class="btn" href="{{ route('posts.index') }}" role="button">⬅️ {{ __('actions.back') }}</a>
+                    </div>
+
+                    <!-- Likes buttons -->
+                    <div class="container" style="margin-bottom:20px">
+                        <p>{{ __(':number likes', ['number' => $numLikes]) }}</p>
+                        @include('partials.buttons-likes')
+                    </div>
+
+                    <!-- Modal -->
+                    @include('partials.delete-modal', [
+                        'resource' => __('resources.post'), 
+                        'id'       => $post->id
+                    ])
+
+                    </div>
                 </div>
             </div>
         </div>

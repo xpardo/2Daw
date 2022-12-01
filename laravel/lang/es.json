@@ -1,5 +1,11 @@
 {
-    "File successfully saved": "Fichero guardado correctamente",
+    "Dashboard": "Tablero principal",
     "ERROR uploading file": "ERROR subiendo el fichero",
-    "You are not the author of the place.":"No eres el autor del lugar."
+    ":resource successfully saved": ":resource se ha guardado correctamente",
+    ":resource successfully updated": ":resource se ha actualitzado correctamente",
+    ":resource successfully deleted": ":resource se ha eliminado correctamente",
+    "Are you sure?": "Estás seguro/a?",
+    "You are gonna delete :resource :id.": "Estás a punto de eliminar :resource :id",
+    "This action cannot be undone!": "Esta acción no se puede deshacer!",
+    "You are not the author": "No eres el/la autor/a"
 }

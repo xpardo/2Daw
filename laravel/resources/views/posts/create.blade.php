@@ -11,8 +11,8 @@
             </ul>
         </div>
     @endif
-@yield('resources/js/files/create.js')
-
+@yield('resources/js/posts/create.js')
+<script src="js/posts/create.js"></script>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -42,14 +42,16 @@
                         <input type="text" id="longitude" name="longitude" class="form-control"
                                 value="1.7282036"/>
                     </div>
-                    <div class="form-group">     
-                        <label for="visibility">{{ _('visibility') }}</label>          
-                        <select class="inputBackground"  name="visibility_id" class="form-control">
-                            @foreach($visibilities as $visibility)
-                                <option value="{{__($visibility->id)}}">{{__($visibility->name)}}</option>
-                            @endforeach 
+                    
+                    <div class="form-group">
+                    <label for="visibility">{{ __('fields.visibility') }}</label>
+                        <select id="visibility" name="visibility" class="form-control">
+                            @foreach(App\Models\Visibility::all() as $visibility)
+                            <option value="{{ $visibility->id }}">
+                                {{ __($visibility->name) }}
+                            </option>
+                            @endforeach
                         </select>
-                                                        
                     </div>
                         
                         <div class="form-group">
@@ -61,4 +63,6 @@
             </div>
         </div>
     </div>
+    
 @endsection
+

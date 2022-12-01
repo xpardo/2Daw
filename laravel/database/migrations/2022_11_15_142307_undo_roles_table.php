@@ -11,13 +11,10 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+   public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['role_id']);
-            $table->dropColumn('role_id');
-        });
-        Schema::drop('roles');
+        $migration = include '2022_10_18_144246_create_roles_table.php';
+        $migration->down();
     }
 
     /**
@@ -27,20 +24,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::create('roles', function (Blueprint $table) {
-            //$table->unsignedBigInteger('id')->autoincrementable();
-            //$table->primary('id');
-            $table->id();
-            $table->string('name')->unique();
-        });
-        Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('role_id')->nullable();
-            $table->foreign('role_id')->references('id')->on('roles');
-        });
-        Artisan::call('db:seed', [
-            '--class' => 'RoleSeeder',
-            '--force' => true
-         ]);
+        $migration = include '2022_10_18_144246_create_roles_table.php';
+        $migration->up();
     }
-    
 };
+

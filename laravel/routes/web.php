@@ -1,14 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MailController;
 use Illuminate\Http\Request;
+use App\Http\Controllers\MailController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\PostsCrudController;
-use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\LanguageController;
 
+use App\Models\Role as R;
+use App\Models\Permission as P;
+
+use App\Http\Controllers\CommentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -60,12 +64,14 @@ Auth::routes();
 // --------------------------------------------------
 
 
-Route::resource('files', FileController::class); 
+
 
 /* 
-Route::resource('files', FileController::class)
+Route::resource('files', FileController::class); 
+
+
+*/Route::resource('files', FileController::class)
     ->middleware(['auth', 'permission:files']);
-*/
 
 // --------------------------------------------------
 //Crud Post / Coment
@@ -73,9 +79,13 @@ Route::resource('files', FileController::class)
 
 Route::resource('posts', PostController::class);
 
-/* Route::resource('posts', PostController::class)->middleware(['auth', 'permission:posts']); */
+/* Route::resource('posts', PostController::class);
 
 
+    */
+
+Route::resource('posts', PostController::class)
+    ->middleware(['auth', 'permission:'.P::POSTS]);
 Route::resource('comment', CommentController::class)->middleware(['auth', 'permission:comment']);
 
 
@@ -83,11 +93,16 @@ Route::resource('comment', CommentController::class)->middleware(['auth', 'permi
 // --------------------------------------------------
 //Likes
 // --------------------------------------------------
-/* 
-Route::post('/like-post/{id}',[PostController::class,'likePost'])->name('like.post'); */
 
-Route::post('/posts/{post}/likes', [App\Http\Controllers\PostController::class, 'likes'])->name('posts.likes');
-Route::delete('/posts/{post}/likes', [App\Http\Controllers\PostController::class, 'unlike'])->name('posts.unlike');
+
+Route::controller(PostController::class)->group(function () {
+    Route::post('/posts/{post}/likes', 'like')
+        ->middleware(['auth','role:author'])
+        ->name('posts.like');
+    Route::delete('/posts/{post}/likes', 'unlike')
+        ->middleware(['auth','role:author'])
+        ->name('posts.unlike');
+});
 
 
 // --------------------------------------------------
@@ -96,5 +111,5 @@ Route::delete('/posts/{post}/likes', [App\Http\Controllers\PostController::class
 
 
 
-Route::get('/language/{locale}', [App\Http\Controllers\LanguageController::class, 'language']);
+Route::get('/language/{locale}', [LanguageController::class, 'language']);
 

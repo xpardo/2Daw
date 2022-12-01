@@ -10,25 +10,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
-    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
-    use HasFactory;
-    use SoftDeletes;
-
-  
     protected $dates = ['deleted_at'];
   
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
+    use HasFactory;
 
     protected $fillable = [
         'body',
         'file_id',
         'latitude',
         'longitude',
+        'visibility_id',
         'author_id'
     ];
 
@@ -42,27 +34,40 @@ class Post extends Model
         return $this->belongsTo(User::class, 'author_id');
     }
 
+    public function author()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
 
     public function liked()
     {
         return $this->belongsToMany(User::class, 'likes');
     }
+    
+    public function likedByUser(User $user)
+    {
+        $count = Like::where([
+            ['user_id',  '=', auth()->user()->id],
+            ['post_id', '=', $this->id],
+        ])->count();
+        
+        return $count > 0;
+    }
+
+    public function likedByAuthUser()
+    {
+        $user = auth()->user();
+        return $this->likedByUser($user);
+    }
 
     public function visibility()
     {
-        return $this->belongsToMany(Post::class,);
-    }
-
-       
-    /**
-     * The has Many Relationship
-     *
-     * @var array
-     */
-    public function comments()
-    {
-        return $this->hasMany(Comment::class)->whereNull('parent_id');
-        
+       return $this->belongsTo(Visibility::class);
     }
 
 }

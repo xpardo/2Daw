@@ -11,25 +11,17 @@ class Visibility extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
-
-    public $guard_name = 'web';
     
+    const PUBLIC   = 1;
+    const CONTACTS = 2;
+    const PRIVATE  = 3;
+
+    public $timestamps = false;
+
     protected $fillable = [
-        'public',
-        'contacts',
-        'private',
-
+        'id',
+        'name',
     ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'integer',
-    ];
-
     public function post(){
         return $this->hasMany(Post::class);
     }

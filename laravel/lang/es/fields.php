@@ -1,11 +1,21 @@
 <?php
- 
+
 return [
-   'author_id' => 'author_id',
-   'body' => 'body',
-   'created_at' => 'created_at',
-   'file_id' => 'file_id',
-   'latitude' => 'latitude',
-   'longitude' => 'longitude',
-   'visibility_id' => 'visibility_id',
+    // Commons
+    'id' => 'ID',
+    'name' => 'Nombre',
+    'file' => 'Fichero',
+    'latitude' => 'Latitud',
+    'longitude' => 'Longitud',
+    'visibility' => 'Visibilidad',
+    'author' => 'Autoría',
+    'created_at' => 'Creado',
+    'updated_at' => 'Actualitzado',
+    // Files
+    'filepath' => 'Ruta',
+    'filesize' => 'Tamaño',
+    // Posts
+    'body' => 'Cuerpo',
+    // Places
+    'description' => 'Descripción',
 ];

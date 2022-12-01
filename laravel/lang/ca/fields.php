@@ -1,11 +1,21 @@
 <?php
- 
+
 return [
-   'author_id' => 'author_id',
-   'body' => 'body',
-   'created_at' => 'created_at',
-   'file_id' => 'file_id',
-   'latitude' => 'latitude',
-   'longitude' => 'longitude',
-   'visibility_id' => 'visibility_id',
+    // Commons
+    'id' => 'ID',
+    'name' => 'Nom',
+    'file' => 'Fitxer',
+    'latitude' => 'Latitud',
+    'longitude' => 'Longitud',
+    'visibility' => 'Visibilitat',
+    'author' => 'Autoria',
+    'created_at' => 'Creat',
+    'updated_at' => 'Actualitzat',
+    // Files
+    'filepath' => 'Ruta',
+    'filesize' => 'Mida',
+    // Posts
+    'body' => 'Cos',
+    // Places
+    'description' => 'Descripció',
 ];
