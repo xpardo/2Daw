@@ -2,7 +2,7 @@
 @section('content')
     @include('flash')
 
-    @vite('resources/js/files/create.js')
+    @yield('resources/js/files/create.js')
 
 
 <script src="js/files/create.js"></script>

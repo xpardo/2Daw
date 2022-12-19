@@ -18,11 +18,7 @@ return new class extends Migration
             $table->string('name', 255);
       
         });
-         // Call seeder
-         Artisan::call('db:seed', [
-            '--class' => 'VisibilitySeeder',
-            '--force' => true // <--- add this line
-        ]);
+       
     }
 
     /**
