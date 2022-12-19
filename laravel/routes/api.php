@@ -42,3 +42,11 @@ Route::post('files/{file}', [FileController::class, 'update_workaround']);
 Route::apiResource('posts', PostController::class);
 Route::post('/store', [PostController::class, 'store'])->middleware('auth:sanctum');
 
+Route::controller(PostController::class)->group(function () {
+    Route::post('posts/{post}/likes','like',)
+    ->middleware('auth:sanctum')
+    ->name('posts.like');
+    Route::post('posts/{post}/likes','unlike',)
+    ->middleware('auth:sanctum')
+    ->name('posts.unlike');
+});

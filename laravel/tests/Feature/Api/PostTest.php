@@ -1,11 +1,15 @@
 <?php
-
 namespace Tests\Feature;
+ 
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
+use Tests\TestCase;
+use App\Models\File;
 use App\Models\User;
 use App\Models\Post;
 use Laravel\Sanctum\Sanctum;
 use Illuminate\Testing\Fluent\AssertableJson;
-
 
 class PostTest extends TestCase
 {
@@ -25,7 +29,7 @@ class PostTest extends TestCase
         ]);
         // TODO Omplir amb dades vàlides
         self::$validData = [
-            'body' => 'hola mon',
+            'body' => 'prova',
             'upload' => $upload,
             'latitude'    => '6.44',
             'longitude'   => '6.44',
@@ -34,7 +38,6 @@ class PostTest extends TestCase
         ];
         // TODO Omplir amb dades incorrectes
         self::$invalidData = [
-
             'body' => '1',
             'upload' => $upload,
             'latitude'    => '1',
@@ -77,7 +80,7 @@ class PostTest extends TestCase
     {
         Sanctum::actingAs(self::$testUser);
         // Cridar servei web de l'API
-        $response = $this->postJson("/api/post", self::$validData);
+        $response = $this->postJson("/api/posts", self::$validData);
         // Revisar que no hi ha errors de validació
         $params = array_keys(self::$validData);
         $response->assertValid($params);
@@ -99,7 +102,7 @@ class PostTest extends TestCase
     {
         Sanctum::actingAs(self::$testUser);
         // Cridar servei web de l'API
-        $response = $this->postJson("/api/post", self::$invalidData);
+        $response = $this->postJson("/api/posts", self::$invalidData);
         // TODO Revisar errors de validació
         $params = [
             'body', 'body',
@@ -109,8 +112,6 @@ class PostTest extends TestCase
             'visibility_id'   => '1',
         ];
         $response->assertInvalid($params);
-        // TODO Revisar més errors
-
         
     }
   
@@ -125,8 +126,4 @@ class PostTest extends TestCase
             'email' => self::$testUser->email,
         ]);
     }
- }
- 
-
-    
-
+}

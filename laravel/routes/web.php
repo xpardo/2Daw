@@ -8,7 +8,6 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\LanguageController;
-
 use App\Models\Role as R;
 use App\Models\Permission as P;
 
@@ -43,6 +42,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('mail/test', [MailController::class, 'test'])->middleware(['auth']);
 
+
+
 require __DIR__.'/auth.php';
 
 // --------------------------------------------------
@@ -64,29 +65,29 @@ Auth::routes();
 // --------------------------------------------------
 
 
-
-Route::resource('files', FileController::class); 
 /* 
+Route::resource('files', FileController::class); 
 
+ */
 
 Route::resource('files', FileController::class)
     ->middleware(['auth', 'permission:files']);
-*/
+
 
 // --------------------------------------------------
 //Crud Post / Coment
 // --------------------------------------------------
 
-Route::resource('posts', PostController::class);
-
-/* Route::resource('posts', PostController::class);
 
 
-    */
+/*
+ Route::resource('posts', PostController::class);
 
-/* Route::resource('posts', PostController::class)
+*/
+
+Route::resource('posts', PostController::class)
     ->middleware(['auth', 'permission:'.P::POSTS]);
-     */
+    
 Route::resource('comment', CommentController::class)->middleware(['auth', 'permission:comment']);
 
 

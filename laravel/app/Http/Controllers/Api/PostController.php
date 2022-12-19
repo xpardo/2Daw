@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Laravel\Sanctum\Sanctum;
@@ -51,7 +52,6 @@ class PostController extends Controller
         $longitude      = $request->get('longitude');
         $visibility_id  = $request->get('visibility_id');
         
-
         // Desar fitxer al disc i inserir dades a BD
         $file = new File();
         $fileOk = $file->diskSave($upload);
@@ -104,11 +104,10 @@ class PostController extends Controller
             return response()->json([
                 'success' => true,
                 'data'    => $posts
-            ], 200);
-       
+            ], 201);
         }
     }
-
+    
     /**
      * Update the specified resource in storage.
      *
@@ -130,6 +129,11 @@ class PostController extends Controller
         }
     }
 
+    public function update_workaround(Request $request, $id) // limitació php
+    {
+        return $this->update($request, $id);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -149,5 +153,49 @@ class PostController extends Controller
                 "message" => "Post ${id} deleted"
             ]);
         }
+    }
+    
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     * Likes , Unlike
+     */
+    public function like($id){
+        $user = User::likes($post->author_id);
+        $like = Like::create([
+            'user_id' => $user->id,
+            'post_id' => $post->id,
+        ]);
+
+        if($like){
+            return \response()->json([
+                "message" => "Post ${id} not found"
+            ], 401);
+        }
+    }
+    public function unlike($id){
+        $user=User::find($post->author_id);
+        $like = Like::where([
+            ['user_id', "=" ,$user->id],
+            ['post_id', "=" ,$post->id],
+        ]);
+
+        $like->first();
+
+        $like->delete();
+
+        if($like){
+            return \response()->json([
+                "message" => "unlike ${id} not found"
+            ], 200);
+        }else{
+            Post::destroy($id);
+            return \response()->json([
+                "message" => "Post Unlike ${id} deleted"
+            ]);
+        }
+    
     }
 }
