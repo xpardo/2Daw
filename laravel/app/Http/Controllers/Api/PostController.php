@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Laravel\Sanctum\Sanctum;
+use App\Models\User;
+use App\Models\Like;
 use App\Models\Post;
 use App\Models\File;
 
@@ -196,6 +200,5 @@ class PostController extends Controller
                 "message" => "Post Unlike ${id} deleted"
             ]);
         }
-    
     }
 }

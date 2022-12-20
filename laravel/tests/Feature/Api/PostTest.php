@@ -74,8 +74,6 @@ class PostTest extends TestCase
         ]);
     }
  
-
-  
     public function test_post_create()
     {
         Sanctum::actingAs(self::$testUser);

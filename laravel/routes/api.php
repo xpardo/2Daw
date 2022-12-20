@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\TokenController;
 use App\Http\Controllers\Api\PostController;
-/*
+
+/*******************
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
@@ -15,7 +16,7 @@ use App\Http\Controllers\Api\PostController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 * Token *
- *****************/
+******************/
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -29,19 +30,17 @@ Route::post('/logout', [TokenController::class, 'logout'])->middleware('auth:san
 
 /*****************
 * Api File *
- *****************/
+******************/
 
 Route::apiResource('files', FileController::class);
 Route::post('files/{file}', [FileController::class, 'update_workaround']);
 
-
-
 /*****************
-* Api Post *
- *****************/
+* Api Post / Like*
+******************/
 Route::apiResource('posts', PostController::class);
 Route::post('/store', [PostController::class, 'store'])->middleware('auth:sanctum');
-
+Route::post('files/{file}', [PostController::class, 'update_workaround']);
 Route::controller(PostController::class)->group(function () {
     Route::post('posts/{post}/likes','like',)
     ->middleware('auth:sanctum')
