@@ -9,13 +9,15 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Backpack\CRUD\app\Models\Traits\CrudTrait; 
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use CrudTrait; 
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
-
 
 
     public $guard_name = 'web';

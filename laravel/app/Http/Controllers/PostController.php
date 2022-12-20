@@ -227,7 +227,7 @@ class PostController extends Controller
         return redirect()->route('posts.index')->with('message','Post Like successfully!');
     }
 
-    public function unlike(Posrt $posrt)
+    public function unlike(Post $posts)
     {
         $user=User::find($post->author_id);
         $like = Like::where([
