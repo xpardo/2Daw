@@ -98,17 +98,18 @@ class PostController extends Controller
         //
       
         $posts=Post::find($id);
-        if (empty($posts)) {
+        if (!$posts){
             return response()->json([
                 'success' => false,
-                "message" => "posts ${id} not found"
+                'message' => "Post not found"
             ], 404);
         }
         else{
             return response()->json([
                 'success' => true,
                 'data'    => $posts
-            ], 201);
+            ], 200);
+       
         }
     }
     
@@ -123,15 +124,56 @@ class PostController extends Controller
     {
         
         $posts = Post::find($id);
-        if(empty($posts)){
+        if ($posts){
+            // Validar dades del formulari
+            $validatedData = $request->validate([
+                'body'        => 'required|string',
+                'upload'      => 'required|mimes:gif,jpeg,jpg,png,mp4|max:2048',
+                'latitude'    => 'required',
+                'longitude'   => 'required',
+                'visibility_id'   => 'required',
+            ]);
+            
+            // Obtenir dades del formulari
+            $body        = $request->get('body');
+            $upload      = $request->file('upload');
+            $latitude    = $request->get('latitude');
+            $longitude   = $request->get('longitude');
+            $visibility_id  = $request->get('visibility_id');
+            
+
+            // Desar fitxer al disc i inserir dades a BD
+            $file=File::find($posts->file_id);
+            $fileOk = $file->diskSave($upload);
+
+            if ($fileOk) {
+                // Desar dades a BD
+                $posts-> body = $body;
+                $posts-> latitude = $latitude;
+                $posts-> longitude = $longitude;
+                $posts-> visibility_id = $visibility_id;
+                $posts->save();
+                // Patró PRG amb missatge d'èxit
+                return response()->json([
+                    'success' => true,
+                    'data'    => $posts
+                ], 201); 
+            }
+            else{
+                return response()->json([
+                    'success'  => false,
+                    'message' => 'Error storing posts'
+                ], 500);
+            }               
+        } else {
             return response()->json([
-                "message" => "posts ${id} not found"
-            ],404);
-        }else{
-            $posts->update($request->all());
-            return \response($posts);
+                'success' => false,
+                'message' => "posts not found"
+            ], 404);
+           
         }
     }
+
 
     public function update_workaround(Request $request, $id) // limitació php
     {
@@ -147,15 +189,19 @@ class PostController extends Controller
     public function destroy($id)
     {
         $posts = Post::find($id);
-        if (empty($posts)) {
-            return \response()->json([
-                "message" => "Post ${id} not found"
+        if (!$posts){
+            return response()->json([
+                'success' => false,
+                'message' => "posts not found"
             ], 404);
-        } else {
-            Post::destroy($id);
-            return \response()->json([
-                "message" => "Post ${id} deleted"
-            ]);
+        }
+        else{
+            $posts->delete();
+            return response()->json([
+                'success' => true,
+                'data'    => 'File deleted.'
+            ], 200);
+       
         }
     }
     
@@ -167,39 +213,47 @@ class PostController extends Controller
      * Likes , Unlike
      */
     public function like($id){
-        $user = User::likes($post->author_id);
-        $like = Like::create([
-            'user_id' => $user->id,
-            'post_id' => $post->id,
-        ]);
-
-        if($like){
-            return \response()->json([
-                "message" => "Post ${id} not found"
-            ], 401);
-        }
-    }
-    public function unlike($id){
-        $user=User::find($post->author_id);
-        $like = Like::where([
-            ['user_id', "=" ,$user->id],
-            ['post_id', "=" ,$post->id],
-        ]);
-
-        $like->first();
-
-        $like->delete();
-
-        if($like){
-            return \response()->json([
-                "message" => "unlike ${id} not found"
-            ], 200);
+     
+        $posts = Post::find($id);
+        if (like::where([['user_id', "=" ,auth()->user()->id],['post_id', "=" ,$posts->id],])->exists()) {
+            return response()->json([
+                'success'  => false,
+                'message' => 'The post is already like'
+            ], 500);
         }else{
-            Post::destroy($id);
-            return \response()->json([
-                "message" => "Post Unlike ${id} deleted"
+            $like = like::create([
+                'user_id' => auth()->user()->id,
+                'post_id' => $posts->id,
             ]);
-        }
+            return response()->json([
+                'success' => true,
+                'data'    => $like
+            ], 201);
+        }        
+    }
+
+    public function unlike($id){
+        $posts = Post::find($id);
+        if (like::where([['user_id', "=" ,auth()->user()->id],['post_id', "=" ,$posts->id],])->exists()) {
+            $like = like::where([
+                ['user_id', "=" ,auth()->user()->id],
+                ['post_id', "=" ,$posts->id],
+            ]);
     
+            $like->first();
+    
+            $like->delete();
+
+            return response()->json([
+                'success' => true,
+                'data'    => $like
+            ], 201);
+        }else{
+            return response()->json([
+                'success'  => false,
+                'message' => 'The posts is is not like'
+            ], 500);
+            
+        }  
     }
 }

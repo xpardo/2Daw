@@ -103,20 +103,186 @@ class PostTest extends TestCase
         Sanctum::actingAs(self::$testUser);
         // Cridar servei web de l'API
         $response = $this->postJson("/api/posts", self::$invalidData);
-        // TODO Revisar errors de validació
+
         $params = [
-            'body', 'body',
-            'upload' => $upload,
-            'latitude'    => 'latitude',
-            'longitude'   => 'longitude',
-            'visibility_id'   => '1',
+            'body'
         ];
         $response->assertInvalid($params);
         
+        // Check ERROR response
+        $this->_test_error($response);
+        
     }
   
-    // TODO Sub-tests de totes les operacions CRUD
-  
+    
+
+    public function test_post_read(object $posts)
+    {
+        // Read one file
+        $response = $this->getJson("/api/posts/{$posts->id}");
+        // Check OK response
+        $this->_test_ok($response);
+       
+    }
+
+    public function test_post_read_notfound()
+    {
+        Sanctum::actingAs(self::$testUser);
+        $id = "not_exists";
+        $response = $this->getJson("/api/posts/{$id}");
+        $this->_test_notfound($response);
+    }
+       
+
+    public function test_post_update(object $posts)
+    {
+        Sanctum::actingAs(self::$testUser);
+        // Cridar servei web de l'API
+        $response = $this->putJson("/api/posts/{$posts->id}", self::$validData);
+        // Revisar que no hi ha errors de validació
+        $params = array_keys(self::$validData);
+        $response->assertValid($params);
+                
+        // Check OK response
+        $this->_test_ok($response, 201);
+    
+        // Check JSON dynamic values
+        $response->assertJsonPath("data.id",
+            fn ($id) => !empty($id)
+        );
+        // Read, update and delete dependency!!!
+        $json = $response->getData();
+        return $json->data;
+    }
+
+    public function test_posts_update_error(object $posts)
+    {
+        Sanctum::actingAs(self::$testUser);
+        // Cridar servei web de l'API
+        $response = $this->postJson("/api/posts", self::$invalidData);
+
+        $params = [
+            'body'
+        ];
+        $response->assertInvalid($params);
+        // Check ERROR response
+        $this->_test_error($response);
+    }
+    
+    public function test_post_update_notfound()
+    {
+        Sanctum::actingAs(self::$testUser);
+        $id = "not_exists";
+        $response = $this->putJson("/api/posts/{$id}", []);
+        $this->_test_notfound($response);
+    }
+
+    public function test_post_delete(object $posts)
+    {
+        Sanctum::actingAs(self::$testUser);
+        // Delete one file using API web service
+        $response = $this->deleteJson("/api/posts/{$posts->id}");
+        // Check OK response
+        $this->_test_ok($response);
+    }
+    
+    public function test_post_delete_notfound()
+    {
+        Sanctum::actingAs(self::$testUser);
+        $id = "not_exists";
+        $response = $this->deleteJson("/api/posts/{$id}");
+        $this->_test_notfound($response);
+    }
+
+    /*****************
+    * test Like *
+    ******************/
+    public function test_post_like(object $posts)
+    {
+        Sanctum::actingAs(self::$testUser);
+        $response = $this->postJson("/api/posts/{$posts->id}/likes");
+        // Check OK response
+        $this->_test_ok($response);
+        
+    }
+
+    public function test_post_like_error(object $posts)
+    {
+        Sanctum::actingAs(self::$testUser);
+        $response = $this->getJson("/api/posts/{$posts->id}/likes");
+        // Check ERROR response
+        $this->_test_error($response);
+        
+    }
+
+    public function test_post_unlike(object $posts)
+    {
+        Sanctum::actingAs(self::$testUser);
+        // Read one file
+        $response = $this->getJson("/api/posts/{$posts->id}/like");
+        // Check OK response
+        $this->_test_ok($response);
+        
+    }
+
+    public function test_post_unlike_error(object $posts)
+    {
+        Sanctum::actingAs(self::$testUser);
+        $response = $this->getJson("/api/posts/{$posts->id}/like");
+        // Check ERROR response
+        $this->_test_error($response);
+        
+    }
+
+    /*****************
+    * Tests *
+    ******************/
+
+    protected function _test_ok($response, $status = 200)
+    {
+        // Check JSON response
+        $response->assertStatus($status);
+        // Check JSON properties
+        $response->assertJson([
+            "success" => true,
+            "data"    => true // any value
+        ]);
+    }
+
+    protected function _test_error($response)
+    {
+        // Check response
+        $response->assertStatus(422);
+        // Check JSON properties
+        $response->assertJson([
+            "message" => true, // any value
+            "errors"  => true, // any value
+        ]);       
+        // Check JSON dynamic values
+        $response->assertJsonPath("message",
+            fn ($message) => !empty($message) && is_string($message)
+        );
+        $response->assertJsonPath("errors",
+            fn ($errors) => is_array($errors)
+        );
+    }
+    
+    protected function _test_notfound($response)
+    {
+        // Check JSON response
+        $response->assertStatus(404);
+        // Check JSON properties
+        $response->assertJson([
+            "success" => false,
+            "message" => true // any value
+        ]);
+        // Check JSON dynamic values
+        $response->assertJsonPath("message",
+            fn ($message) => !empty($message) && is_string($message)
+        );   
+    }
+
+
     public function test_post_last()
     {
         // Eliminem l'usuari al darrer test
@@ -126,4 +292,6 @@ class PostTest extends TestCase
             'email' => self::$testUser->email,
         ]);
     }
+
+
 }
