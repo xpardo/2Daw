@@ -81,16 +81,15 @@ return [
     | to any of the locales which will be supported by the application.
     |
     */
-    // 'locale' => 'en',
 
     'locale' => 'ca',
+    
     'available_locales' => [
-       'ca' => 'Català',
-       'es' => 'Castellano',
-       'en' => 'English',
+        'ca' => 'Català',
+        'es' => 'Castellano',
+        'en' => 'English',
     ],
-    'fallback_locale' => 'en',
-
+    
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
@@ -185,16 +184,15 @@ return [
         Illuminate\Redis\RedisServiceProvider::class,
         Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
         Illuminate\Session\SessionServiceProvider::class,
-        //Illuminate\Translation\TranslationServiceProvider::class,
+        Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Spatie\Permission\PermissionServiceProvider::class,
-        'Barryvdh\TranslationManager\TranslationServiceProvider',
 
         /*
          * Package Service Providers...
          */
-
+        Spatie\Permission\PermissionServiceProvider::class,
+        
         /*
          * Application Service Providers...
          */

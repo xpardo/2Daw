@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
-    protected $dates = ['deleted_at'];
+
   
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;

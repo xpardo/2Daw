@@ -65,32 +65,32 @@ Auth::routes();
 // --------------------------------------------------
 
 
-/* 
+
 Route::resource('files', FileController::class); 
 
- */
 
+/* 
 Route::resource('files', FileController::class)
     ->middleware(['auth', 'permission:files']);
 
-
+ */
 // --------------------------------------------------
 //Crud Post / Coment
 // --------------------------------------------------
 
 
 
-/*
+
  Route::resource('posts', PostController::class);
 
-*/
 
+/* 
 Route::resource('posts', PostController::class)
     ->middleware(['auth', 'permission:'.P::POSTS]);
     
 Route::resource('comment', CommentController::class)->middleware(['auth', 'permission:comment']);
 
-
+ */
 
 // --------------------------------------------------
 //Likes

@@ -23,6 +23,7 @@ class PostController extends Controller
      */
     public function index()
     {
+        
         return view("posts.index",[
             "posts" => Post::all()
         ]); 
@@ -83,7 +84,7 @@ class PostController extends Controller
             ]);
             \Log::debug("DB storage OK");
             // Patró PRG amb missatge d'èxit
-            return redirect()->route('posts.show', $post)
+            return redirect()->route('posts.show', $posts)
                 ->with('success', __('posts successfully saved'));
         } else {
             \Log::debug("Disk storage FAILS");

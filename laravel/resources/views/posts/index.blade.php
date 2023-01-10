@@ -7,7 +7,10 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <h1>Totes les publicacions</h1>
-            <a href="{{ route('posts.create') }}" class="btn btn-success" style="float: right">Crea una publicació</a>
+         
+            <a class="btn btn-primary" href="{{ route('posts.create') }}" role="button">
+                 ➕ {{ __('actions.add') . " " . __('resources.post') }}
+            </a>
             <br><br><br>
             <table class="table table-bordered">
             <thead>
@@ -47,4 +50,5 @@
         </div>
     </div>
 </div>
+
 @endsection   

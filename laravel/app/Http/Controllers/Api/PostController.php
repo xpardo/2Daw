@@ -42,7 +42,7 @@ class PostController extends Controller
      
         $validatedData = $request->validate([
             'body'          => 'required',
-            'upload'        => 'required|mimes:gif,jpeg,jpg,png,mp4|max:2048',
+            'upload'        => 'required',
             'latitude'      => 'required',
             'longitude'     => 'required',
             'visibility_id' => 'required',
