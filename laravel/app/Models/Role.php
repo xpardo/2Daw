@@ -4,15 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
-class Role extends Model
+use Spatie\Permission\Models\Role as SpatieRole;
+
+class Role extends SpatieRole
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
 
-    const ROLE_ADMIN = 1;
-    const ROLE_BASIC = 2;
-    const ROLE_TECH  = 3;
-    const ROLE_COORD = 4;
+   
+    const AUTHOR= 1;
+    const EDITOR = 2;
+    const ADMIN = 3;
 
     /**
      * The attributes that are mass assignable.

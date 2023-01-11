@@ -7,14 +7,30 @@ use Illuminate\Database\Eloquent\Model;
 
 class Place extends Model
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
     protected $fillable=[
-        'name'
+        'name',
+        'description',
+        'latitude',
+        'longitude'
+
     ];
-    public function places()
+    
+    public function file()
     {
-        return $this->belongsTo(Place::class);
-        return $this->hasMany(Place::class);
+        return $this->belongsTo(File::class);
     }
+    public function user()
+    {
+    // foreign key does not follow conventions!!!
+        return $this->belongsTo(User::class, 'author_id');
+        return $this->belongsTo(User::class);
+
+    }
+
+    
+
+
 
 }

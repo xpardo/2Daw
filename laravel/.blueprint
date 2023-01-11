@@ -1,0 +1,17 @@
+created:
+    - database/factories/TagFactory.php
+    - database/migrations/2022_11_14_162747_create_tags_table.php
+    - app/Models/Tag.php
+    - database/seeders/TagsSeeder.php
+    - database/seeders/PostsSeeder.php
+    - database/seeders/PlacesSeeder.php
+    - database/seeders/VisibilitiesSeeder.php
+models:
+    Comment: { user_id: 'integer unsigned', post_id: 'integer unsigned', parent_id: 'integer unsigned nullable', body: text }
+    File: { filepath: string, filesize: integer }
+    Like: {  }
+    Place: { name: string, description: string, latitude: 'float:8,2', longitude: 'float:8,2', author_id: 'biginteger unsigned nullable' }
+    Post: { body: string, latitude: 'float:8,2', longitude: 'float:8,2', file_id: 'biginteger unsigned', author_id: 'biginteger unsigned' }
+    Role: { name: string }
+    User: { name: string, email: string, email_verified_at: 'datetime nullable', password: string, remember_token: 'string:100 nullable', role_id: 'biginteger unsigned nullable' }
+    Tag: { name: string }

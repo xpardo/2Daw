@@ -10,46 +10,65 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
-    use HasFactory;
-
-    use SoftDeletes;
-
-  
-  
     protected $dates = ['deleted_at'];
   
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
+    use HasFactory;
+
     protected $fillable = [
-        'title', 
         'body',
-        'nombre',
-        'imagen',
+        'file_id',
+        'latitude',
+        'longitude',
+        'visibility_id',
+        'author_id'
     ];
 
-
-    public function post()
+    public function file()
     {
-        return $this->belongsTo(Post::class);
-        return $this->hasMany(Post::class);
+       return $this->belongsTo(File::class);
     }
 
-   
-    /**
-     * The has Many Relationship
-     *
-     * @var array
-     */
-    public function comments()
+    public function user()
     {
-        return $this->hasMany(Comment::class)->whereNull('parent_id');
+        return $this->belongsTo(User::class, 'author_id');
     }
 
-   
+    public function author()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
 
+    public function liked()
+    {
+        return $this->belongsToMany(User::class, 'likes');
+    }
+    
+    public function likedByUser(User $user)
+    {
+        $count = Like::where([
+            ['user_id',  '=', auth()->user()->id],
+            ['post_id', '=', $this->id],
+        ])->count();
+        
+        return $count > 0;
+    }
+
+    public function likedByAuthUser()
+    {
+        $user = auth()->user();
+        return $this->likedByUser($user);
+    }
+
+    public function visibility()
+    {
+       return $this->belongsTo(Visibility::class);
+    }
 
 }
 

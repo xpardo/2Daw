@@ -1,0 +1,5 @@
+models:
+  Tag:
+    name: string
+
+seeders: Tags ,Posts , Places, visibilities 

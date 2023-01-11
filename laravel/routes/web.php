@@ -1,10 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MailController;
 use Illuminate\Http\Request;
+use App\Http\Controllers\MailController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PlaceController;
+use App\Http\Controllers\LanguageController;
+use App\Models\Role as R;
+use App\Models\Permission as P;
+
 use App\Http\Controllers\CommentController;
 /*
 |--------------------------------------------------------------------------
@@ -30,13 +36,15 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+
 // ...
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('mail/test', [MailController::class, 'test'])->middleware(['auth']);
 
 
+
+require __DIR__.'/auth.php';
 
 // --------------------------------------------------
 //Email
@@ -57,15 +65,53 @@ Auth::routes();
 // --------------------------------------------------
 
 
-/*  Route::resource('files', FileController::class); */
+/* 
+Route::resource('files', FileController::class); 
 
-Route::resource('files', FileController::class)->middleware(['auth', 'role.any:1,2,3,4']);
+ */
+
+Route::resource('files', FileController::class)
+    ->middleware(['auth', 'permission:files']);
+
 
 // --------------------------------------------------
-//Crud Post / Coment / Like
+//Crud Post / Coment
 // --------------------------------------------------
 
-Route::resource('posts', PostController::class)->middleware(['auth', 'role.any:1,2,3']);
-Route::resource('comment', CommentController::class)->middleware(['auth', 'role.any:1,2,3']);
 
-Route::post('/like-post/{id}',[PostController::class,'likePost'])->name('like.post');
+
+/*
+ Route::resource('posts', PostController::class);
+
+*/
+
+Route::resource('posts', PostController::class)
+    ->middleware(['auth', 'permission:'.P::POSTS]);
+    
+Route::resource('comment', CommentController::class)->middleware(['auth', 'permission:comment']);
+
+
+
+// --------------------------------------------------
+//Likes
+// --------------------------------------------------
+
+
+Route::controller(PostController::class)->group(function () {
+    Route::post('/posts/{post}/likes', 'like')
+        ->middleware(['auth','role:author'])
+        ->name('posts.like');
+    Route::delete('/posts/{post}/likes', 'unlike')
+        ->middleware(['auth','role:author'])
+        ->name('posts.unlike');
+});
+
+
+// --------------------------------------------------
+//Idiom
+// --------------------------------------------------
+
+
+
+Route::get('/language/{locale}', [LanguageController::class, 'language']);
+
