@@ -50,6 +50,8 @@
                         </div>
                         <button type="submit" class="btn btn-primary">{{ __('actions.update') }}</button>
                         <button type="reset" class="btn btn-secondary">{{ __('actions.reset') }}</button>
+                        <a class="btn" href="{{ route('posts.index') }}" role="button">⬅️ {{ __('actions.back') }}</a>
+
                     </form>
                     
             </div>

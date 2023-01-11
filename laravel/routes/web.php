@@ -8,6 +8,8 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\LanguageController;
+
+
 use App\Models\Role as R;
 use App\Models\Permission as P;
 
@@ -66,35 +68,26 @@ Auth::routes();
 
 
 
-Route::resource('files', FileController::class); 
 
-
-/* 
+ 
 Route::resource('files', FileController::class)
-    ->middleware(['auth', 'permission:files']);
+    ->middleware(['auth'/*, 'permission:'.P::FILES*/]);
 
- */
+ 
 // --------------------------------------------------
 //Crud Post / Coment
 // --------------------------------------------------
 
 
+ 
 
-
- Route::resource('posts', PostController::class);
 Route::resource('comment', CommentController::class)->middleware(['auth', 'permission:comment']);
 
-/* 
+
 Route::resource('posts', PostController::class)
-    ->middleware(['auth', 'permission:'.P::POSTS]);
- 
- */   
-
-
-
+->middleware(['auth'/*, 'permission:'.P::POSTS*/]);
 
  
-
 
 // --------------------------------------------------
 //Likes
@@ -103,10 +96,10 @@ Route::resource('posts', PostController::class)
 
 Route::controller(PostController::class)->group(function () {
     Route::post('/posts/{post}/likes', 'like')
-        ->middleware(['auth','role:author'])
+        ->middleware(['auth'])
         ->name('posts.like');
     Route::delete('/posts/{post}/likes', 'unlike')
-        ->middleware(['auth','role:author'])
+        ->middleware(['auth'])
         ->name('posts.unlike');
 });
 
