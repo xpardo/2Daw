@@ -65,7 +65,7 @@ class PostController extends Controller
             \Log::debug("Saving posts at DB...");
             $posts = Post::create([
                 'body'          => $body,
-                'file_id'       => $file->id,
+                'upload'        => $file->id,
                 'latitude'      => $latitude,
                 'longitude'     => $longitude,
                 'author_id'     => auth()->user()->id,
@@ -83,7 +83,7 @@ class PostController extends Controller
             return response()->json([
                 'success'  => false,
                 'message' => 'Error storing posts'
-            ], 500);
+            ],500);
         }
     }
 

@@ -31,7 +31,7 @@ class PostTest extends TestCase
         // TODO Omplir amb dades vàlides
         self::$validData = [
             'body' => 'prova',
-            'upload' => 1,
+            'upload' => $upload,
             'latitude'    => '41.2310371',
             'longitude'   => '1.7282036',
             'visibility_id'   => 1,
@@ -67,15 +67,15 @@ class PostTest extends TestCase
         $response->assertValid($params);
                 
         // Check OK response
-        $this->_test_ok($response,201);
+        $this->_test_ok($response, 201);
     
         // Check JSON dynamic values
-        $response->assertJsonPath("posts.id",
+        $response->assertJsonPath("post.id",
             fn ($id) => !empty($id)
         );
         // Read, update and delete dependency!!!
         $json = $response->getData();
-        return $json->posts;
+        return $json->post;
 
     }
   
@@ -87,10 +87,10 @@ class PostTest extends TestCase
         // TODO Revisar errors de validació
         $params = [
             'body'=> 'body',
-            'upload' => '1',
+            'upload' => $upload,
             'latitude'    => 'latitude',
             'longitude'   => 'longitude',
-            'visibility_id'   => '1',
+            'visibility_id'   => 1,
         ];
         $response->assertInvalid($params);
         

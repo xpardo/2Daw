@@ -21,11 +21,17 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        $admin = new User([
+       /*  $admin = new User([
             'name'      => config('admin.name'),
             'email'     => config('admin.email'),
             'password'  => Hash::make(config('admin.password')),
         ]);
-        $admin->save();
+        $admin->save(); */
+        $this->call([
+            UserSeeder::class,
+            RoleAndPermSeeder::class,
+            LanguageSeeder::class,
+            VisibilitySeeder::class,            
+        ]);
     }
 }

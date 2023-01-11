@@ -1,7 +1,4 @@
 <?php
-
-
-
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -27,7 +24,7 @@ class TokenController extends Controller
             'password' => Hash::make($request->get('password')),
         ]);
 
-        $user->assignRole('author');
+       
 
         // Generate new token
         $token = $user->createToken("authToken")->plainTextToken;
@@ -70,12 +67,12 @@ class TokenController extends Controller
                 "success"   => true,
                 "authToken" => $token,
                 "tokenType" => "Bearer"
-            ], 200);
+            ],200);
         } else {
             return response()->json([
                 "success" => false,
                 "message" => "Invalid login credentials"
-            ], 401);
+            ],401);
         }
     }
 
@@ -88,8 +85,4 @@ class TokenController extends Controller
             "message" => "Any problem during logout"
         ]);
     }
-
-
-
-
 }
