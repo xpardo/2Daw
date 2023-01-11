@@ -22,7 +22,7 @@
                     <td scope="col">{{ __('fields.longitude') }}</td>
                     <td scope="col">{{ __('fields.visibility') }}</td>
                     <td scope="col">{{ __('fields.author') }}</td>
-                    <td scope="col">{{ __('resources.likes') }}</td>
+                <!--     <td scope="col">{{ __('resources.likes') }}</td> -->
                     <td scope="col"></td>
                 </tr>
             </thead>
@@ -36,7 +36,7 @@
                     <td>{{ $post->longitude }}</td>
                     <td>{{ $post->visibility->name }}</td>
                     <td>{{ $post->author->name }}</td>
-                    <td>{{ $post->likes_count }} @include('partials.buttons-likes')</td>
+                  
                     <td>
                         <a title="{{ __('actions.view') }}" href="{{ route('posts.show', $post) }}">👁️</a>
                         <a title="{{ __('actions.edit') }}" href="{{ route('posts.edit', $post) }}">📝</a>

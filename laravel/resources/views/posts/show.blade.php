@@ -20,25 +20,10 @@
 
                     <hr />
                     
-                    <h4>Display Comments</h4>
-  
-                    @include('posts.commentsDisplay', ['comments' => $post->comments, 'post_id' => $post->id])
+                   
    
                     <hr />
-                    <h4>Add comment</h4>
-                    <form method="post" action="{{ url('comment') }}">
-                        @csrf
-                        <div class="form-group">
-                            <textarea class="form-control" name="body"></textarea>
-                            <input type="hidden" name="post_id" value="{{ $post->id }}" />
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-success" value="Add Comment" />
-                            <a class="btn btn-primary" href="{{ route('posts.index') }}">Back</a>
-                        </div>
-                        
-                       
-                    </form>
+                  
 
                      <!-- Buttons -->
                     <div class="container" style="margin-bottom:20px">
@@ -52,16 +37,17 @@
                     </div>
 
                     <!-- Likes buttons -->
-                    <div class="container" style="margin-bottom:20px">
-                        <p>{{ __(':number likes', ['number' => $numLikes]) }}</p>
-                        @include('partials.buttons-likes')
-                    </div>
+                        <div class="container" style="margin-bottom:20px">
+                            <p>{{ __(':number likes', ['number' => $numLikes]) }}</p>
+                            @include('partials.buttons-likes')
+                        </div>
 
-                    <!-- Modal -->
-                    @include('partials.delete-modal', [
-                        'resource' => __('resources.post'), 
-                        'id'       => $post->id
-                    ])
+                        <!-- Modal -->
+                        @include('partials.delete-modal', [
+                            'resource' => __('resources.post'), 
+                            'id'       => $post->id
+                        ])
+
 
                     </div>
                 </div>

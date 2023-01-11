@@ -82,15 +82,19 @@ Route::resource('files', FileController::class)
 
 
  Route::resource('posts', PostController::class);
-
+Route::resource('comment', CommentController::class)->middleware(['auth', 'permission:comment']);
 
 /* 
 Route::resource('posts', PostController::class)
     ->middleware(['auth', 'permission:'.P::POSTS]);
-    
-Route::resource('comment', CommentController::class)->middleware(['auth', 'permission:comment']);
+ 
+ */   
 
- */
+
+
+
+ 
+
 
 // --------------------------------------------------
 //Likes
@@ -105,6 +109,7 @@ Route::controller(PostController::class)->group(function () {
         ->middleware(['auth','role:author'])
         ->name('posts.unlike');
 });
+
 
 
 // --------------------------------------------------
