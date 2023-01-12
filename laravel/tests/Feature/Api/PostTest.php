@@ -54,15 +54,15 @@ class PostTest extends TestCase
 
         Sanctum::actingAs(
             self::$testUser,
-            ['*'] // grant all abilities to the token
+            ['*'] 
         );
 
        // Create fake post
        $name  = "fto.png";
        $body= "Post";
        $size = 500; /*KB*/
-       $latitude = 'X3748300';
-       $longitude = 'M0044030';
+       $latitude = '3748300';
+       $longitude = '0044030';
        $visibility_id = '1';
        $author_id = '2';
        $upload = UploadedFile::fake()->image($name)->size($size);
@@ -96,8 +96,8 @@ class PostTest extends TestCase
         $name  = "fto.png";
         $body = "Post";
         $size = 5000; /*KB*/
-        $latitude = 'X3748300';
-        $longitude = 'M0044030';
+        $latitude = '3748300';
+        $longitude = '0044030';
         $visibility_id = 'public';
         $author_id = '2';
         $upload = UploadedFile::fake()->image($name)->size($size);
@@ -142,8 +142,8 @@ class PostTest extends TestCase
         $name  = "fto.png";
         $size = 500; /*KB*/
         $body = 'hola bones';
-        $latitude = 'X3748300';
-        $longitude = 'M0044030';
+        $latitude = '3748300';
+        $longitude = '0044030';
         $visibility_id = 2;
         $author_id = 2;
         $upload = UploadedFile::fake()->image($name)->size($size);
@@ -177,8 +177,8 @@ class PostTest extends TestCase
        $name  = "fto.png";
        $size = 5000; /*KB*/
        $body = 'hola bones';
-       $latitude = 'X3748300';
-       $longitude = 'M0044030';
+       $latitude = '3748300';
+       $longitude = '0044030';
        $visibility_id = 'public';
        $author_id = '2';
        $upload = UploadedFile::fake()->image($name)->size($size);
@@ -219,16 +219,20 @@ class PostTest extends TestCase
         $this->_test_notfound($response);
     }
 
-   protected function _test_ok($response, $status = 200)
-   {
-       // Check JSON response
-       $response->assertStatus($status);
-       // Check JSON properties
-       $response->assertJson([
-           "success" => true,
-           "data"    => true // any value
-       ]);
-   }
+    protected function _test_ok($response, $status = 200)
+    {
+        // Check JSON response
+        $response->assertStatus($status);
+        // Check JSON properties
+        $response->assertJson([
+            "success" => true,
+        ]);
+        // Check JSON dynamic values
+        $response->assertJsonPath("data",
+            fn ($data) => is_array($data)
+        );
+    }
+ 
 
    protected function _test_error($response)
     {
