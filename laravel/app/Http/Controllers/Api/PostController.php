@@ -1,19 +1,20 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\Visibility;
 use App\Models\Post;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use App\Models\File;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\api\Posts;
-
-use Illuminate\Http\Request;
+use App\Models\Like;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
@@ -35,26 +36,64 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-
-        // Validar fitxer
+      // Validar fitxer
         $validatedData = $request->validate([
-            'upload' => 'required|mimes:gif,jpeg,jpg,png|max:2048'
+            'upload' => 'required|mimes:gif,jpeg,jpg,png|max:1024',
+            'body' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+            'visibility_id' => 'required',            
+            'author_id' => 'required',
         ]);
-        // Desar fitxer al disc i inserir dades a BD
+   
+        // Obtenir dades del fitxer
         $upload = $request->file('upload');
-        $file = new File();
-        $ok = $file->diskSave($upload);
+        $fileName = $upload->getClientOriginalName();
+        $fileSize = $upload->getSize();
+        $body = $request->get('body');
+        $latitude = $request->get('latitude');
+        $longitude = $request->get('longitude');
+        $visibility_id = $request->get('visibility_id');
+        $author_id = $request->get('author_id');
 
-        if ($ok) {
-            return response()->json([
-                'success' => true,
-                'data'    => $file
-            ], 201);
+        // Pujar fitxer al disc dur
+        $uploadName = time() . '_' . $fileName;
+        $filePath = $upload->storeAs(
+            'uploads',      // Path
+            $uploadName ,   // Filename
+            'public'        // Disk
+        );
+    
+        if (Storage::disk('public')->exists($filePath)) {
+            
+            $fullPath = Storage::disk('public')->path($filePath);
+            
+            // Desar dades a BD
+            $file = File::create([
+                'filepath' => $filePath,
+                'filesize' => $fileSize,
+            ]);
+        
+
+            // Desar dades a BD
+            $post = Post::create([
+                'body' => $body,
+                'latitude' => $latitude,
+                'longitude' => $longitude,
+                'visibility_id' => $visibility_id,
+                'file_id' => $file->id,   
+                'author_id'=>$author_id,
+        ]); 
+
+        return response()->json([
+            'success' => true,
+            'data'    => $post
+        ], 201);
         } else {
             return response()->json([
                 'success'  => false,
-                'message' => 'Error uploading file'
-            ], 421);
+                'message' => 'Error uploading post'
+            ], 500);
         }
     }
 
@@ -66,19 +105,26 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $file=File::find($id);
-        if ($file){
+        $post = Post::find($id);
+        if ($post == null){
+            return response()->json([
+                'success'  => false,
+                'message' => 'Error notFound post'
+            ], 404);
+
+        }
+
+        if ($post) {
             return response()->json([
                 'success' => true,
-                'data'    => $file
+                'data'    => $post
             ], 200);
-         }else{
-             return response()->json([
-                 'success' => false,
-                 'message'=> "not found"
-             ], 404);
-         }
-       
+        }else {
+            return response()->json([
+                'success'  => false,
+                'message' => 'Error no encontramos el lugar a leer'
+            ], 500);
+        }
     }
 
     /**
@@ -90,33 +136,67 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
-        $file=File::find($id);
-        if (empty ($file)) {
+        $post = Post::find($id);
+
+        if ($post == null){
             return response()->json([
                 'success'  => false,
-                'message' => 'Error not found'
+                'message' => 'Error notFound post'
             ], 404);
+
         }
         // Validar fitxer
         $validatedData = $request->validate([
-            'upload' => 'required|mimes:gif,jpeg,jpg,png|max:2048'
+            'body' => 'required|String',
+            'latitude' => 'required|String',
+            'longitude' => 'required|String',
+            'visibility_id' => 'required|Integer',
+            'author_id' => 'required|Integer',
+            'upload' => 'required|mimes:gif,jpeg,jpg,png|max:1024'
+        
         ]);
-        // Desar fitxer al disc i inserir dades a BD
+   
+        // Obtenir dades del post
         $upload = $request->file('upload');
+        $fileName = $upload->getClientOriginalName();
+        $body = $request->get('body');
+        $latitude = $request->get('latitude');
+        $longitude = $request->get('longitude');
+        $visibility_id = $request->get('visibility_id');
+        $author_id = $request->get('author_id');
+        $fileSize = $upload->getSize();
 
-        $ok = $file->diskSave($upload);
+        // Pujar fitxer al disc dur
+        $uploadName = time() . '_' . $fileName;
+        $filePath = $upload->storeAs(
+            'uploads',      // Path
+            $uploadName ,   // Filename
+            'public'        // Disk
+        );
+        $file = File::find($post->file_id);
 
-        if ($ok) {
+        if ($post) {
+            // Desar dades a BD
+            $file->filepath = $filePath;
+            $file->filesize = $fileSize;
+            $file->save();
+
+            $post->body = $body;
+            $post->latitude = $latitude;
+            $post->longitude = $longitude;
+            $post->visibility_id = $visibility_id;
+            $post->author_id = $author_id;
+            $post->save();
+
             return response()->json([
                 'success' => true,
-                'data'    => $file
+                'data'    => $post
             ], 200);
-        } else {
+        }else {
             return response()->json([
                 'success'  => false,
-                'message' => 'Error uploading file'
-            ], 421);
+                'message' => 'Error updating post'
+            ], 500);
         }
     }
 
@@ -128,37 +208,29 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $file = File::find($id);
-        if (empty ($file)) {
-            return response()->json([
-                'success'  => false,
-                'message' => 'not found'
-            ], 404);
-        }
-        $ok =  $file->diskDelete();
+        $post = Post::find($id);
 
-        if ($ok) {
-            return response()->json([
-                'success' => true,
-                'data'    => $file
-            ], 200);
-        } else {
+        if ($post == null){
             return response()->json([
                 'success'  => false,
-                'message' => 'Error deleting file'
-            ], 500);
+                'message' => 'Error notFound post'
+            ], 404);
+
+        }else{
+            $file = File::find($post->file_id);
+            if ($file==null) {
+                return response()->json([
+                    'success'  => false,
+                    'message' => 'Error file notFound'
+                ], 404);
+            } else {
+                $post->delete();
+                $file->delete();
+                return response()->json([
+                    'success' => true,
+                    'data'    => $post
+                ], 200);
+            }
         }
-    }
-    public function update_post(Request $request, $id)
-    {
-        return $this->update($request, $id);
-    }
-    public function delete_post(Request $request, $id)
-    {
-        return $this->destroy($request, $id);
-    }
-    public function show_post(Request $request, $id)
-    {
-        return $this->show($request, $id);
     }
 }
