@@ -1,22 +1,18 @@
 <?php
 namespace Tests\Feature;
-
-use App\Models\User;
-use App\Models\Post;
-use Laravel\Sanctum\Sanctum;
-use Illuminate\Testing\Fluent\AssertableJson;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
+use App\Models\User;
+use App\Models\Visibility;
+use App\Models\Post;
+use App\Models\File;
+use App\Models\Like;
+use Laravel\Sanctum\Sanctum;
 
 class PostTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
 
     public static User $testUser;
 
@@ -31,7 +27,7 @@ class PostTest extends TestCase
             "password"  => "12345678"
         ]);
     }
-    public function test_post_first()
+    public function test_place_first()
      {
         // Desem l'usuari al primer test
         self::$testUser->save();
@@ -73,8 +69,8 @@ class PostTest extends TestCase
 
        // Upload fake file using API web service
        $response = $this->postJson("/api/posts", [
-            "upload" => $upload,
-            "body" => $body,
+           "upload" => $upload,
+           "body" => $body,
             "latitude" => $latitude,
             "longitude" => $longitude,
             "visibility_id" => $visibility_id,
@@ -97,7 +93,7 @@ class PostTest extends TestCase
     public function test_post_create_error()
     {
         // Create fake file with invalid max size
-        $name  = "avatar.png";
+        $name  = "fto.png";
         $body = "Post";
         $size = 5000; /*KB*/
         $latitude = 'X3748300';
@@ -143,7 +139,7 @@ class PostTest extends TestCase
     public function test_post_update(object $post)
     {
         // Create fake post
-        $name  = "avatar.png";
+        $name  = "fto.png";
         $size = 500; /*KB*/
         $body = 'hola bones';
         $latitude = 'X3748300';
@@ -178,7 +174,7 @@ class PostTest extends TestCase
    {
        // Create fake file with invalid max size
        // Create fake post
-       $name  = "avatar.png";
+       $name  = "fto.png";
        $size = 5000; /*KB*/
        $body = 'hola bones';
        $latitude = 'X3748300';
