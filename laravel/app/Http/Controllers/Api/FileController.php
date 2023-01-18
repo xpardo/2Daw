@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\File;
-use Illuminate\Http\Response;
 
 
 class FileController extends Controller
@@ -17,9 +16,11 @@ class FileController extends Controller
      */
     public function index()
     {
-        //
-        $files = File::all();
-        return \response($file);
+        $files=File::all();
+        return response()->json([
+            "success"=> true,
+            "data"=>$files  
+        ]);
     }
 
     /**
@@ -30,20 +31,35 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-       // Validar fitxer
-       $validatedData = $request->validate([
-        'upload' => 'required|mimes:gif,jpeg,jpg,png|max:2048'
+        // Validar fitxer
+        $validatedData = $request->validate([
+            'upload' => 'required|mimes:gif,jpeg,jpg,png|max:1024'
         ]);
-        // Desar fitxer al disc i inserir dades a BD
+    
+        // Obtenir dades del fitxer
         $upload = $request->file('upload');
-        $file = new File();
-        $ok = $file->diskSave($upload);
+        $fileName=$upload->getClientOriginalName();
+        $fileSize = $upload->getSize();
+        \Log::debug("Storing file '{$fileName}' ($fileSize)...");
 
-        if ($ok) {
+        // Pujar fitxer al disc dur
+        $uploadName = time() . '_' . $fileName;
+        $filePath = $upload->storeAs(
+            'uploads',      // Path
+            $uploadName ,   // Filename
+            'public'        // Disk
+        );
+    
+        if (\Storage::disk('public')->exists($filePath)) {
+            $fullPath = \Storage::disk('public')->path($filePath);
+            $file = File::create([
+                'filepath' => $filePath,
+                'filesize' => $fileSize,
+            ]);
             return response()->json([
                 'success' => true,
                 'data'    => $file
-            ], 201);
+            ], 201); 
         } else {
             return response()->json([
                 'success'  => false,
@@ -51,6 +67,7 @@ class FileController extends Controller
             ], 500);
         }
     }
+
     /**
      * Display the specified resource.
      *
@@ -59,14 +76,26 @@ class FileController extends Controller
      */
     public function show($id)
     {
-        $file = File::find($id);
-
-        if (empty($file)) {
-            return \response()->json([
-                "message" => "file ${id} not found"
+        $file=File::find($id);
+        if ($file==null){
+            return response()->json([
+                'success' => false,
+                'message' => "File not found"
             ], 404);
-        } else {
-            return \response($file);
+        }
+        if (\Storage::disk('public')->exists($file->filepath))
+        {
+            return response()->json([
+                'success' => true,
+                'data'    => $file
+            ], 200);
+       
+        }    
+        else{
+            return response()->json([
+                'success'  => false,
+                'message' => 'Error reading file'
+            ], 500);
         }
     }
 
@@ -79,42 +108,85 @@ class FileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $file = File::find($id);
-
-        if (empty($file)) {
-            return \response()->json([
-                "message" => "file ${id} not found"
+        $file=File::find($id);
+        if ($file==null){
+            return response()->json([
+                'success' => false,
+                'message' => "File not found"
             ], 404);
+        }
+        // Validar fitxer
+        $validatedData = $request->validate([
+            'upload' => 'required|mimes:gif,jpeg,jpg,png|max:1024'
+        ]);
+    
+        // Obtenir dades del fitxer
+        $upload = $request->file('upload');
+        $fileName = $upload->getClientOriginalName();
+        $fileSize = $upload->getSize();
+        \Log::debug("Storing file '{$fileName}' ($fileSize)...");
+
+        // Pujar fitxer al disc dur
+        $uploadName = time() . '_' . $fileName;
+        $filePath = $upload->storeAs(
+            'uploads',      // Path
+            $uploadName ,   // Filename
+            'public'        // Disk
+        );
+
+        if (\Storage::disk('public')->exists($filePath)) {
+            $file-> filepath = $filePath;
+            $file-> filesize = $fileSize;
+            $file -> save();
+            return response()->json([
+                'success' => true,
+                'data'    => $file
+            ], 200);
         } else {
-            $file->update($request->all());
-            return \response($file);
+            return response()->json([
+                "success" => false,
+                "message" => "Error updating file"
+            ], 500);
         }
     }
 
-    public function update_workaround(Request $request, $id) // limitació php
+    public function update_workaround(Request $request, $id)
     {
         return $this->update($request, $id);
     }
- 
+
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
-    */
+     */
     public function destroy($id)
     {
-        $file = File::find($id);
+        $file=File::find($id);
 
-        if (empty($file)) {
-            return \response()->json([
-                "message" => "file ${id} not found"
+        if ($file==null){
+            return response()->json([
+                'success' => false,
+                'message' => "File not found"
             ], 404);
-        } else {
-            File::destroy($id);
-            return \response()->json([
-                "message" => "file ${id} deleted"
-            ]);
         }
-    }   
-}
+        
+        $file->delete();
+
+        if (\Storage::disk('public')->exists($file->filepath)){
+            \Storage::disk('public')->delete($file->filepath);
+            return response()->json([
+                'success' => true,
+                'data'    => 'File deleted.'
+            ], 200);
+        }
+        else{
+            return response()->json([
+                'success' => false,
+                'message' => "Error deleting file."
+            ], 500);
+        }
+    }
+} 

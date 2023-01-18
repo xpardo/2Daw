@@ -1,371 +1,301 @@
-*{
-    font-family: Helvetica;
-}
-
 // Body
-$body-bg: #f8fafc;
+$body-bg: #e6e5db;
 
 // Typography
 $font-family-sans-serif: 'Nunito', sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
 
-.navFijo{
-    background-color: #3C6E71;
+$primary: #694abb;
+
+// main general .
+
+// Background dashboard:
+
+// background apartats pagina: 
+.container{
+    background-color: #e6e5db;
+}
+// Formulari Login :
+.card-header {
+    text-align: center;
+}
+.card-header p {
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 18px;
+}
+.containerLogin{
+    height: 100%;
     width: 100%;
-    height: 20%;
+    background-image: url("../../public/images/City.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+.loginContainer{
+    height: 100%;
+    width: 90%;
+}
+.divLogin{
+    align-content: center;
+    margin-left: 20%;
+    margin-right:20% ;
+    height: 100%;
+    margin-top: 7rem;
+}
+.rowLogin{
+    height: 50%;
     display: flex;
     flex-wrap: wrap;
+}
+.login{
+    background-color: hsla(55, 18%, 88%, 0.678) ;
+    width: 70%;
+    margin-left: 20%;
+    margin-right: 20%;
+    padding: 2%;
+}
+#form{
+    align-content: center;
+}
+.loginHeader{
+    text-align: center;
+    padding-bottom: 10%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight:bold;
+    font-size:50px;
+}
+.divInput{
+    width: 100%;
+    align-content: center;
+    margin-top: 1vh;
+}
+.emailPasswd{
+    text-align: center;
+    background-color: #e6e5db00;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid #6f6f71;
+    border-radius: 0%;
+    width: 40%;
+    margin-left: 30%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.emailPasswd:focus{
+    border-bottom: 2px solid #6f6f71;
+    outline: none;
+    background-color: #6f6f7100;
+}
+#btnLoginDiv{
+    margin-top: 10vh;
+}
+// Register :
+.fontRegister{
+    font-size: 1.2em;
+}
+.col{
+    width: 100%;
+    height: 70%;
+}
+.marginRegister{
+    margin-left: 43%;
+
+}
+// Layout principal (APP y nav) :
+
+.navbar-brand{
+    font-family:Arial, Helvetica, sans-serif ;
+    width: 15%;
+}
+.logo{
+    margin-left: 0%;
+    width: 7vh;
+    height: 7vh;
+}
+.backgroundNav{
+    background-color: #694abb;
+}
+.navLink{
+    color: #fffffe;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight:bold;
+    font-size: 1.4vh;
+    text-decoration: none;
+    margin:auto;
+
+}
+.navLink:hover{
+    color: #e6e5db;
+}
+.ms-auto .navLink{
+    position: relative;
+    display: block;
+    padding: 5px;
+}
+.ms-auto .navLink::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, #ffffff, #ffffff, #ffffff);
+    z-index: 1;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease-in-out;
+  }
+  .ms-auto .navLink:hover::before {
+    transform: scaleX(1);
+  }
+.ms-auto[data-animation=center] .navLink::before {
+    transform-origin: center;
+}
+.containerNav{
+    width: 100%;
+    display: flex;
+    flex-wrap: inherit;
+    align-items: center;
     justify-content: space-between;
 }
-
-.navLogo{
-    width: 40%;
-    height: 100%;
+.ms-auto{
+    margin-right: 10%;
+}
+#navbarDropdown{
+    color: #e6e5db;
+    font-weight: bold;
+    font-size: 17px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+#burguer{
+    height: 3vh;
 }
 
-
-
-#navToolbar{
-    height: 100%;
+.css-menu{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight:bold ;
+}
+.dropdown-item:hover{
+    background-color: #684abb61;
+    color: white;
+    font-weight: bold;
+}
+#navbarDropdown{
+    margin-left: 2vh;
+}
+// Botons Place File Post:
+#botoneraContainer{
     width: 65%;
 }
-
-.navbar{
-    position: relative;
+.botonera{
+    list-style-type:none;
 }
-
-.maxWidthMaxHeight{
-    width: 100%;
-    height: 100%;
-}
-
-// .formInput{
-//     margin-bottom: 5%;
-// }
-
-.loginButton{
-    -webkit-border-radius: 32px;
-    -moz-border-radius: 32px;
-    border-radius: 32px;
-    color: #FFFFFF;
-    font-family: Helvetica;
-    font-size: 2.3vh;
-    padding: 1vh;
-    background-color: #284B63;
-    border: solid #969797 3px;
+.botons{
+    float: left;
     text-decoration: none;
-    width: 20vh;
+    list-style-type:none;
+    padding-left: 10%;
+    
 }
+// Language switcher:
 
-
-
-.mainHome{
-    background-color: #3C6E71;
-    width: 100%;
-    height: 80%;
+// Place and Post View: 
+.card{
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    width: 55%;
+    float: left;
+    height: 50% !important;
+    margin-right: 5%;
+    background-color:#694abb !important;
+    
+}
+.cardDescription{
     display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-// .contenedorLogin{
-//     width: 100%;
-//     height: 100%;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-// }
-
-// .maxWidth{
-//     width: 100%;
-// }
-
-.centrar{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-// .card-header{
-//     width: 100%;
-// }
-
-// .formulario{
-//     width: 100%;
-//     height: 100%;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-// }
-
-// .divRegistro{
-//     display: flex;
-//     width: 100%;
-//     height: 10%;
-
-// }
-
-// .noDotList{
-//     list-style-type: none;
-// }
-
-// #welcomeMessage{
-//     width: 50%;
-//     height: 100%;
-// }
-
-// #formulario{
-//     width: 50%;
-//     height: 100%;
-// }
-
-
-.loginContainer{
-    background-color: #3C6E71;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.formContainer{
-    border: solid #FFFFFF 0.3vh;
-    background-color: #D9D9D9;
-    height: 60%;
-    width: 30%;
-}
-
-.messageContainer{
-    height: 100%;
-    width: 35%;
-}
-
-#welcomeMessage{
-    font-size: 9vh;
-    font-family: oblique;
-    color: #353535;
-}
-
-.loginTitleLetter{
-    font-size: 4vh;
-    margin-bottom: 2%;
-    margin-top: 1%;
-    height: 17%;
-}
-
-.formInput{
-    margin-bottom: 4%;
-    width: 70%;
-    margin-left: 15%;
-}
-
-.card-body{
-    width: 100%;
-    height: 80%;
-}
-
-#multiLanguage{
-    width: 98%;
-    height: 30%;
-    margin-right: 2%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.maxHeight{
-    height: 100%;
-}
-
-.navDiv{
-    height: 70%;
-    margin-right: 2%;
-    margin-bottom: 1%;
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.navLogo{
-    margin-left: 2%;
-    width: 20%;
-    height: 70%;
-}
-
-.navElement{
-    height: 100%;
-    width: 20%;
-    margin: 0%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: nowrap;
-    flex-direction: column;
-}
-
-.emojiNav{
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    height: 80%;
-}
-
-.nombreNav{
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    height: 20%;
-}
-
-.imagenNav{
+    flex-wrap: inherit;
+    background-color: #e6e5db;
+    height: 50% ;
     width: 40%;
-    height: 100%;
+    position: relative;
+    float: left;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
 }
-
-.linkNav{
-    color: #353535;
-    font-family: helvetica;
-}
-
-.linkNav:hover{
-    color: #284B63;
-}
-
-.imgShow{
-    width: 30%;
-    height: 30%;
-}
-
-.container{
-    background-color: #3C6E71;
-    width: 100%;
-    height: 100%;
-    margin-left: 10%;
-    margin-right: 10%;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.divPlace{
-    border: solid #353535;
-    background-color: #284B63;
-    width: 100%;
-    height: 40%;
-    margin-bottom: 2%;
-    display: flex;
-}
-#addPlace{
-    width: 80%;
-    margin-top: 1%;
-    height: 5%;
-    margin-bottom: 1%;
-}
-.addButton{
-    -webkit-border-radius: 32px;
-    -moz-border-radius: 32px;
-    border-radius: 32px;
-    color: #353535;
-    font-family: Helvetica;
-    font-size: 2.3vh;
-    padding: 1vh;
-    background-color: #D9D9D9;
-    border: solid #969797 0.3vh;
-    text-decoration: none;
-    width: 20vh;
-}
-
-.addButton:hover{
-    background-color: #284B63;
-    color: #FFFFFF;
-}
-
-.imgFav{
-    width: 100%;
-    height: 100%;
-}
-
-.standardButton{
-    width: 20%;
-    border: 0 transparent;
-    background-color: transparent;
-}
-
-.aPlace{
-    width: 100%;
-    height: 100%;
-    text-decoration: none;
-    color: #D9D9D9;
-    display: flex;
-}
-.aPlace:hover{
-    color: #D9D9D9;
-}
-
-#aLogo{
-    display: flex;
-    justify-content: flex-start;
-}
-
-.userInfo{
-    height: 100%;
-    width: 30%;
-}
-
-.placeInfo{
-    height: 100%;
-    width: 68%;
-    margin-right: 2%;
-}
-
-.placePhoto{
-    height: 100%;
-    width: 30%;
-}
-
-.imgIndex{
-    width: 20%;
-    height: 50%;
-}
-
-.userName{
+.addPlace{
     margin-top: 2%;
-    width: 100%;
-    height: 20%;
+    margin-left: 2%;
 }
 
-.userFoto{
-    width: 100%;
-    height: 50%;
-}
-
-.favButton{
-    width: 100%;
-    height: 30%;
-}
-
-.imgPlace{
-    width: 100%;
-    height: 100%;
-}
-
-.place{
-    display: flex;
-    width: 100%;
-    height: 100%;
-    justify-content: space-between;
-}
-
-.placeName{
+.addPost{
     margin-top: 2%;
-    height: 10%;
+    margin-left: 2%;
 }
 
-.placeDescr{
-    border: 0.3vh solid #353535;
-    background-color: #D9D9D9;
-    height: 50%;
-    color: #353535;
+.noborder{
+    border-bottom: 0px;
+}
 
+#placeShow{
+    text-decoration: none;
+}
+
+.container2{
+    height: 100%;
+}
+#postIMG{
+    width: 50%;
+}
+#placeIMG{
+    width: 100%;
+    height: 50%;
+}
+#descriptionHeader{
+    background-color: #694abb;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.blanco{
+    color: white;
+}
+
+.Centrar{
+    align-items: center;
+    text-align: center;
+}
+.body-card{
+    align-items: center;
+    padding-left: 2%;
+    padding-right: 2%;
+    height: 100%;
+}
+.trCreated{
+    background-color: #e6e5db;
+    text-align: center;
+}
+#tbodyIndex{
+    align-content: center;
+}
+// formularis Place :
+.cardForms{
+    background-color: #694abb;
+    margin-top: 2%;
+    padding: 5%;
+    color: #e6e5db;
+}
+.table{
+    background-color: #e6e5db;
+}
+.cor{
+    width: 60%;
+}
+.btn-focus{
+    background-color: #e6e5db !important;
+}
+// Background,Footer dashboard:
+#mapa{
+    width: 100%;
+    height: 90%;
 }

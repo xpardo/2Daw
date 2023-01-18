@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreign('author_id')->references('id')->on('users');
             $table->unsignedBigInteger('visibility_id');
             $table->foreign('visibility_id')->references('id')->on('visibilities');
-            $table->softDeletes();
+
             $table->timestamps();
         });
    

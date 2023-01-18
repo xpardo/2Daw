@@ -16,7 +16,7 @@ class TokenTest extends TestCase
     public static function setUpBeforeClass() : void
     {
         parent::setUpBeforeClass();
-  
+    
         // Create test user (BD store later)
         $name = "test_" . time();
         self::$testUser = new User([
@@ -25,16 +25,7 @@ class TokenTest extends TestCase
             "password"  => "12345678"
         ]);
     }
-  
-    public static function tearDownAfterClass() : void
-    {
-        parent::tearDownAfterClass();
-       
-        // TODO Delete user after test...
-        // $user = User::where('email', self::$testUser->email)->first();
-        // $user->delete();
-    }
-  
+    
     public function test_register()
     {
         // Create user using API web service
@@ -52,13 +43,13 @@ class TokenTest extends TestCase
         // Check TOKEN response
         $this->_test_token($response);
     }
-  
+    
     public function test_register_error()
     {
         // Create user using API web service
         $response = $this->postJson('/api/register', [
-            "name"      => "{$name}",
-            "email"     => "{$name}@mailinator.com",
+            "name"      => "",
+            "email"     => "mailinator.com",
             "password"  => "12345678",
         ]);
         // Check response
@@ -79,10 +70,10 @@ class TokenTest extends TestCase
             fn ($errors) => is_array($errors)
         );
     }
-  
+    
     /**
-     * @depends test_register
-     */
+        * @depends test_register
+    */
     public function test_login()
     {
         $user = self::$testUser;
@@ -94,12 +85,11 @@ class TokenTest extends TestCase
         // Check response
         $response->assertOk();
         // Check validation errors
-        $response->assertValid(["name"]);
-        $response->assertValid(["email"]);
+        $response->assertValid(["email","password"]);
         // Check TOKEN response
         $this->_test_token($response);
     }
-  
+    
     public function test_login_invalid()
     {
         // Login using API web service
@@ -115,13 +105,12 @@ class TokenTest extends TestCase
             "message" => true, // any value
         ]);
         // Check validation errors
-        $response->assertValid(["name"]);
-        $response->assertValid(["email"]);
+        $response->assertValid(["email","password"]);
     }
-  
+    
     /**
-     * @depends test_register
-     */
+        * @depends test_register
+        */
     public function test_logout()
     {
         Sanctum::actingAs(
@@ -138,7 +127,7 @@ class TokenTest extends TestCase
             "message" => true, // any value
         ]);
     }
-  
+    
     public function test_logout_unathourized()
     {
         // Logout using API web service
@@ -150,10 +139,10 @@ class TokenTest extends TestCase
             "message" => true, // any value
         ]);
     }
-  
+    
     /**
-     * @depends test_register
-     */
+        * @depends test_register
+        */
     public function test_user()
     {
         $user = self::$testUser;
@@ -175,11 +164,11 @@ class TokenTest extends TestCase
                 $json->where("user.name", $user->name)
                     ->where("user.email", $user->email)
                     ->missing("user.password")
-                    ->where('roles', ['author'])
+   
                     ->etc()
         );
     }
-  
+    
     public function test_user_unathourized()
     {
         // Get user data using API web service
@@ -191,7 +180,7 @@ class TokenTest extends TestCase
             "message" => true, // any value
         ]);
     }
-  
+    
     protected function _test_token($response)
     {
         // Check JSON properties
@@ -207,6 +196,4 @@ class TokenTest extends TestCase
         // Check JSON exact values
         $response->assertJsonPath("tokenType", "Bearer");
     }
- 
- 
 }

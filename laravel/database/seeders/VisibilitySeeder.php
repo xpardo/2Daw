@@ -19,11 +19,8 @@ class VisibilitySeeder extends Seeder
      */
     public function run()
     {
-        $visibilities=[
-            ['id' => '1', 'name' => 'public'],
-            ['id' => '2', 'name' => 'contacts'],
-            ['id' => '3', 'name' => 'private'],
-        ];
-        DB::table('visibilities')->insert($visibilities);
+        Visibility::create(['id' => Visibility::PUBLIC,   'name' => 'public']);
+        Visibility::create(['id' => Visibility::CONTACTS, 'name' => 'contacts']);
+        Visibility::create(['id' => Visibility::PRIVATE,  'name' => 'private']);
     }
 }

@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Laravel\Sanctum\Sanctum;
-use App\Models\User;
-use App\Models\Like;
+use App\Models\Visibility;
 use App\Models\Post;
 use App\Models\File;
+use App\Models\Like;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
-{
+{  
     /**
      * Display a listing of the resource.
      *
@@ -22,12 +21,10 @@ class PostController extends Controller
      */
     public function index()
     {
- 
-        $posts = Post::all();
         return response()->json([
-            "success"=> true,
-            "data"=>$posts  
-        ]);
+            'success' => true,
+            'data'    => Post::all()
+        ], 200);
     }
 
     /**
@@ -38,51 +35,63 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar fitxer
-     
+      // Validar fitxer
         $validatedData = $request->validate([
-            'body'          => 'required',
-            'upload'        => 'required|mimes:gif,jpeg,jpg,png,mp4|max:2048',
-            'latitude'      => 'required',
-            'longitude'     => 'required',
-            'visibility_id' => 'required',
-        
+            'upload' => 'required|mimes:gif,jpeg,jpg,png|max:1024',
+            'body' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+            'visibility_id' => 'required',            
+            'author_id' => 'required',
         ]);
-        
-        // Obtenir dades del formulari
-        $body           = $request->get('body');
-        $upload         = $request->file('upload');
-        $latitude       = $request->get('latitude');
-        $longitude      = $request->get('longitude');
-        $visibility_id  = $request->get('visibility_id');
-        
-        // Desar fitxer al disc i inserir dades a BD
-        $file = new File();
-        $fileOk = $file->diskSave($upload);
+   
+        // Obtenir dades del fitxer
+        $upload = $request->file('upload');
+        $fileName = $upload->getClientOriginalName();
+        $fileSize = $upload->getSize();
+        $body = $request->get('body');
+        $latitude = $request->get('latitude');
+        $longitude = $request->get('longitude');
+        $visibility_id = $request->get('visibility_id');
+        $author_id = $request->get('author_id');
 
-        if ($fileOk) {
+        // Pujar fitxer al disc dur
+        $uploadName = time() . '_' . $fileName;
+        $filePath = $upload->storeAs(
+            'uploads',      // Path
+            $uploadName ,   // Filename
+            'public'        // Disk
+        );
+    
+        if (Storage::disk('public')->exists($filePath)) {
+            
+            $fullPath = Storage::disk('public')->path($filePath);
+            
             // Desar dades a BD
-            \Log::debug("Saving posts at DB...");
-            $posts = Post::create([
-                'body'          => $body,
-                'file_id'       => $file->id,
-                'latitude'      => $latitude,
-                'longitude'     => $longitude,
-                'author_id'     => auth()->user()->id,
-                'visibility_id' => $visibility_id,
+            $file = File::create([
+                'filepath' => $filePath,
+                'filesize' => $fileSize,
             ]);
-            \Log::debug("DB storage OK");
-            // Patró PRG amb missatge d'èxit
-            return response()->json([
-                'success' => true,
-                'data'    => $posts
-            ], 201); 
+        
+
+            // Desar dades a BD
+            $post = Post::create([
+                'body' => $body,
+                'latitude' => $latitude,
+                'longitude' => $longitude,
+                'visibility_id' => $visibility_id,
+                'file_id' => $file->id,   
+                'author_id'=>$author_id,
+        ]); 
+
+        return response()->json([
+            'success' => true,
+            'data'    => $post
+        ], 201);
         } else {
-            \Log::debug("Disk storage FAILS");
-            // Patró PRG amb missatge d'error
             return response()->json([
                 'success'  => false,
-                'message' => 'Error storing posts'
+                'message' => 'Error uploading post'
             ], 500);
         }
     }
@@ -95,24 +104,28 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
-      
-        $posts=Post::find($id);
-        if (!$posts){
+        $post = Post::find($id);
+        if ($post == null){
             return response()->json([
-                'success' => false,
-                'message' => "Post not found"
+                'success'  => false,
+                'message' => 'Error notFound post'
             ], 404);
+
         }
-        else{
+
+        if ($post) {
             return response()->json([
                 'success' => true,
-                'data'    => $posts
+                'data'    => $post
             ], 200);
-       
+        }else {
+            return response()->json([
+                'success'  => false,
+                'message' => 'Error no encontramos el lugar a leer'
+            ], 500);
         }
     }
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -122,62 +135,68 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
-        $posts = Post::find($id);
-        if ($posts){
-            // Validar dades del formulari
-            $validatedData = $request->validate([
-                'body'        => 'required|string',
-                'upload'      => 'required|mimes:gif,jpeg,jpg,png,mp4|max:2048',
-                'latitude'    => 'required',
-                'longitude'   => 'required',
-                'visibility_id'   => 'required',
-            ]);
-            
-            // Obtenir dades del formulari
-            $body        = $request->get('body');
-            $upload      = $request->file('upload');
-            $latitude    = $request->get('latitude');
-            $longitude   = $request->get('longitude');
-            $visibility_id  = $request->get('visibility_id');
-            
+        $post = Post::find($id);
 
-            // Desar fitxer al disc i inserir dades a BD
-            $file=File::find($posts->file_id);
-            $fileOk = $file->diskSave($upload);
-
-            if ($fileOk) {
-                // Desar dades a BD
-                $posts-> body = $body;
-                $posts-> latitude = $latitude;
-                $posts-> longitude = $longitude;
-                $posts-> visibility_id = $visibility_id;
-                $posts->save();
-                // Patró PRG amb missatge d'èxit
-                return response()->json([
-                    'success' => true,
-                    'data'    => $posts
-                ], 201); 
-            }
-            else{
-                return response()->json([
-                    'success'  => false,
-                    'message' => 'Error storing posts'
-                ], 500);
-            }               
-        } else {
+        if ($post == null){
             return response()->json([
-                'success' => false,
-                'message' => "posts not found"
+                'success'  => false,
+                'message' => 'Error notFound post'
             ], 404);
-           
+
         }
-    }
+        // Validar fitxer
+        $validatedData = $request->validate([
+            'body' => 'required|String',
+            'latitude' => 'required|String',
+            'longitude' => 'required|String',
+            'visibility_id' => 'required|Integer',
+            'author_id' => 'required|Integer',
+            'upload' => 'required|mimes:gif,jpeg,jpg,png|max:1024'
+        
+        ]);
+   
+        // Obtenir dades del post
+        $upload = $request->file('upload');
+        $fileName = $upload->getClientOriginalName();
+        $body = $request->get('body');
+        $latitude = $request->get('latitude');
+        $longitude = $request->get('longitude');
+        $visibility_id = $request->get('visibility_id');
+        $author_id = $request->get('author_id');
+        $fileSize = $upload->getSize();
 
+        // Pujar fitxer al disc dur
+        $uploadName = time() . '_' . $fileName;
+        $filePath = $upload->storeAs(
+            'uploads',      // Path
+            $uploadName ,   // Filename
+            'public'        // Disk
+        );
+        $file = File::find($post->file_id);
 
-    public function update_workaround(Request $request, $id) // limitació php
-    {
-        return $this->update($request, $id);
+        if ($post) {
+            // Desar dades a BD
+            $file->filepath = $filePath;
+            $file->filesize = $fileSize;
+            $file->save();
+
+            $post->body = $body;
+            $post->latitude = $latitude;
+            $post->longitude = $longitude;
+            $post->visibility_id = $visibility_id;
+            $post->author_id = $author_id;
+            $post->save();
+
+            return response()->json([
+                'success' => true,
+                'data'    => $post
+            ], 200);
+        }else {
+            return response()->json([
+                'success'  => false,
+                'message' => 'Error updating post'
+            ], 500);
+        }
     }
 
     /**
@@ -188,72 +207,29 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $posts = Post::find($id);
-        if (!$posts){
+        $post = Post::find($id);
+
+        if ($post == null){
             return response()->json([
-                'success' => false,
-                'message' => "posts not found"
+                'success'  => false,
+                'message' => 'Error notFound post'
             ], 404);
-        }
-        else{
-            $posts->delete();
-            return response()->json([
-                'success' => true,
-                'data'    => 'File deleted.'
-            ], 200);
-       
-        }
-    }
-    
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     * Likes , Unlike
-     */
-    public function like($id){
-     
-        $posts = Post::find($id);
-        if (like::where([['user_id', "=" ,auth()->user()->id],['post_id', "=" ,$posts->id],])->exists()) {
-            return response()->json([
-                'success'  => false,
-                'message' => 'The post is already like'
-            ], 500);
-        }else{
-            $like = like::create([
-                'user_id' => auth()->user()->id,
-                'post_id' => $posts->id,
-            ]);
-            return response()->json([
-                'success' => true,
-                'data'    => $like
-            ], 201);
-        }        
-    }
 
-    public function unlike($id){
-        $posts = Post::find($id);
-        if (like::where([['user_id', "=" ,auth()->user()->id],['post_id', "=" ,$posts->id],])->exists()) {
-            $like = like::where([
-                ['user_id', "=" ,auth()->user()->id],
-                ['post_id', "=" ,$posts->id],
-            ]);
-    
-            $like->first();
-    
-            $like->delete();
-
-            return response()->json([
-                'success' => true,
-                'data'    => $like
-            ], 201);
         }else{
-            return response()->json([
-                'success'  => false,
-                'message' => 'The posts is is not like'
-            ], 500);
-            
-        }  
+            $file = File::find($post->file_id);
+            if ($file==null) {
+                return response()->json([
+                    'success'  => false,
+                    'message' => 'Error file notFound'
+                ], 404);
+            } else {
+                $post->delete();
+                $file->delete();
+                return response()->json([
+                    'success' => true,
+                    'data'    => $post
+                ], 200);
+            }
+        }
     }
 }

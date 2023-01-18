@@ -7,21 +7,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Backpack\CRUD\app\Models\Traits\CrudTrait; 
 use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use CrudTrait; 
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
-
+    /**
+     * @see https://spatie.be/docs/laravel-permission/v5/basic-usage/multiple-guards
+     */
     public $guard_name = 'web';
-
 
     /**
      * The attributes that are mass assignable.
@@ -55,18 +51,26 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function posts()
     {
-        return $this->hasMany(Post::class, 'author_id');
+       return $this->hasMany(Post::class, 'author_id');
     }
+
     public function places()
     {
-        return $this->hasMany(Place::class, 'author_id');
+       return $this->hasMany(Place::class, 'author_id');
     }
 
     public function likes()
     {
         return $this->belongsToMany(Post::class, 'likes');
-    }	
+    }
+    
+    public function favorites()
+    {
+        return $this->belongsToMany(Place::class, 'favorites');
+    }
 
-
-
+    public function isAdmin()
+    {
+        return $this->hasRole(Role::ADMIN);
+    }
 }

@@ -2,7 +2,9 @@
 @section('content')
     @include('flash')
 
-    @yield('resources/js/files/create.js')
+    @env(['local','development'])
+   @vite('resources/js/files/create.js')
+@endenv
 
 
 <script src="js/files/create.js"></script>

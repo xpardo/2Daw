@@ -7,40 +7,44 @@
             <div class="card">
                 <div class="card-body">
                     
-                    <br/>
-                    
-                    <h2>{{ $post->title }}</h2>
-                    <p>
-                        {{ $post->body }}
-                    </p>
-                    
+                    <table class="table">
+                        <img class="img-fluid" src="{{ asset('storage/'.$file->filepath) }}" title="Image preview"/>
+                        <tr>
+                            <td><strong>{{ __('fields.id') }}</strong></td>
+                            <td>{{ $post->id }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>{{ __('fields.body') }}</strong></td>
+                            <td>{{ $post->body }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>{{ __('fields.latitude') }}</strong></td>
+                            <td>{{ $post->latitude }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>{{ __('fields.longitude') }}</strong></td>
+                            <td>{{ $post->longitude }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>{{ __('fields.visibility') }}</strong></td>
+                            <td>{{ $post->visibility->name }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>{{ __('fields.author') }}</strong></td>
+                            <td>{{ $author->name }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>{{ __('fields.created_at') }}</strong></td>
+                            <td>{{ $post->created_at }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>{{ __('fields.updated_at') }}</strong></td>
+                            <td>{{ $post->updated_at }}</td>
+                        </tr>
+                    </tbody>
+                </table>
 
-                  
-                    <img class="img-fluid" src="{{ asset('/img/post/'.$post->files) }}" title="files preview"/>
-
-                    <hr />
-                    
-                    <h4>Display Comments</h4>
-  
-                    @include('posts.commentsDisplay', ['comments' => $post->comments, 'post_id' => $post->id])
-   
-                    <hr />
-                    <h4>Add comment</h4>
-                    <form method="post" action="{{ url('comment') }}">
-                        @csrf
-                        <div class="form-group">
-                            <textarea class="form-control" name="body"></textarea>
-                            <input type="hidden" name="post_id" value="{{ $post->id }}" />
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-success" value="Add Comment" />
-                            <a class="btn btn-primary" href="{{ route('posts.index') }}">Back</a>
-                        </div>
-                        
-                       
-                    </form>
-
-                     <!-- Buttons -->
+                    <!-- Buttons -->
                     <div class="container" style="margin-bottom:20px">
                         <a class="btn btn-warning" href="{{ route('posts.edit', $post) }}" role="button">📝 {{ __('actions.edit') }}</a>
                         <form id="form" method="POST" action="{{ route('posts.destroy', $post) }}" style="display: inline-block;">
@@ -50,18 +54,18 @@
                         </form>
                         <a class="btn" href="{{ route('posts.index') }}" role="button">⬅️ {{ __('actions.back') }}</a>
                     </div>
-
                     <!-- Likes buttons -->
                     <div class="container" style="margin-bottom:20px">
-                        <p>{{ __(':number likes', ['number' => $numLikes]) }}</p>
-                        @include('partials.buttons-likes')
-                    </div>
+                            <p>{{ __(':number likes', ['number' => $numLikes]) }}</p>
+                            @include('partials.buttons-likes')
+                        </div>
 
-                    <!-- Modal -->
-                    @include('partials.delete-modal', [
-                        'resource' => __('resources.post'), 
-                        'id'       => $post->id
-                    ])
+                        <!-- Modal -->
+                        @include('partials.delete-modal', [
+                            'resource' => __('resources.post'), 
+                            'id'       => $post->id
+                        ])
+                    
 
                     </div>
                 </div>
