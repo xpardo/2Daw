@@ -4,10 +4,16 @@
 @endsection
 @section('content')
 <div class="container">
+<a class="btn" href="{{ route('dashboard') }}" role="button">⬅️ {{ __('actions.back') }}</a>
     <div class="row justify-content-center">
+        
         <div class="col-md-12">
             <h1>Totes les publicacions</h1>
-            <a href="{{ route('posts.create') }}" class="btn btn-success" style="float: right">Crea una publicació</a>
+          
+
+            <a class="btn btn-primary" href="{{ route('posts.create') }}" role="button">
+                 ➕ {{ __('actions.add') . " " . __('resources.post') }}
+            </a>
             <br><br><br>
             <table class="table table-bordered">
             <thead>
@@ -34,6 +40,7 @@
                     <td>{{ $post->visibility->name }}</td>
                     <td>{{ $post->author->name }}</td>
                     <td>{{ $post->likes_count }} @include('partials.buttons-likes')</td>
+                  
                     <td>
                         <a title="{{ __('actions.view') }}" href="{{ route('posts.show', $post) }}">👁️</a>
                         <a title="{{ __('actions.edit') }}" href="{{ route('posts.edit', $post) }}">📝</a>
@@ -47,4 +54,5 @@
         </div>
     </div>
 </div>
+
 @endsection   

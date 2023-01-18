@@ -2,14 +2,10 @@
 
 namespace App\Models;
 
-
 use Spatie\Permission\Models\Permission as SpatiePermission;
-
 
 class Permission extends SpatiePermission
 {
-   
-
     const CONTENT_ADMINISTRATION = 'content.admin';
     const CONTENT_MODERATION     = 'content.moderate';
     
@@ -40,5 +36,4 @@ class Permission extends SpatiePermission
     const PLACES_READ   = 'places.read';
     const PLACES_UPDATE = 'places.update';
     const PLACES_DELETE = 'places.delete';
-
 }

@@ -4,14 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Conner\Likeable\Likeable;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 
 class Post extends Model
 {
-    protected $dates = ['deleted_at'];
-  
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
 
@@ -52,7 +47,7 @@ class Post extends Model
     public function likedByUser(User $user)
     {
         $count = Like::where([
-            ['user_id',  '=', auth()->user()->id],
+            ['user_id',  '=', $user->id],
             ['post_id', '=', $this->id],
         ])->count();
         
@@ -69,6 +64,4 @@ class Post extends Model
     {
        return $this->belongsTo(Visibility::class);
     }
-
 }
-

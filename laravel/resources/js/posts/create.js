@@ -3,7 +3,7 @@ import ValidatorPlus from '../validator-plus'
 
 let form = document.getElementById("create-post")
 let rules = {
-    "body": "required|max:255",
+    "body": "required",
     "upload": "required",
     "latitude": "required|numeric",
     "longitude": "required|numeric",
