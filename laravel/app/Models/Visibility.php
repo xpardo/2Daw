@@ -5,8 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
-
 class Visibility extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
@@ -22,7 +20,4 @@ class Visibility extends Model
         'id',
         'name',
     ];
-    public function post(){
-        return $this->hasMany(Post::class);
-    }
 }

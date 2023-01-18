@@ -91,18 +91,8 @@ return [
             'provider' => 'users',
             'table' => 'password_resets',
             'expire' => 60,
-            //'throttle' => 60,
-            'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-
+            'throttle' => 60,
         ],
-    ],
-
-    'route' => [
-        'prefix' => 'translations',
-        'middleware' => [
-	        'web',
-	        'auth',
-		],
     ],
 
     /*
